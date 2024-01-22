@@ -5,13 +5,17 @@ public class Tree {
         return depth;
     }
 
-    void createTree(float[][] data, float[] labels){}
+    public void createTree(float[][] data, float[] labels){}
 
-    float Entropy(float[] labels) {
-        return 0;
+    public float Entropy(float[] labels) {
+        float value = 0;
+        for (float label : labels) {
+            value = (float) (-label * Math.log(label) / Math.log(2.0));
+        }
+        return value;
     }
 
-    float iGain(int pEntropy, float[] weight, float[] entropies) {
+    public float iGain(float pEntropy, float[] weight, float[] entropies) {
 
         return 0;
     }
