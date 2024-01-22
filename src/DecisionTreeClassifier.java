@@ -6,8 +6,10 @@ public class DecisionTreeClassifier {
     {
 
     }
-    float [] predictAll(float[][] , int depth){
-        ;
+    float [] predictAll(float[][] data, int depth){
+       return new float[0] ;
     }
-    float accuracy(int [] labels , int [] labels_predicted);
+    float accuracy(int [] labels , int [] labels_predicted){
+        return 0;
+    }
 }
