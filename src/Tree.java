@@ -17,6 +17,12 @@ public class Tree {
 
     public float iGain(float pEntropy, float[] weight, float[] entropies) {
 
-        return 0;
+
+        float sum =0;
+        for (int i = 0;i<weight.length;i++){
+            sum += weight[i]*entropies[i];
+        }
+
+        return pEntropy-sum;
     }
 }
