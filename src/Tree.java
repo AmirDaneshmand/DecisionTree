@@ -2,102 +2,46 @@ import java.util.Arrays;
 
 public class Tree {
     int depth;
+    int featureIndex;
+    int threshold;
+    Node root;
+    public Tree(int featureIndex, int threshold, Node root) {
+        this.featureIndex = featureIndex;
+        this.threshold = threshold;
+        this.root = root;
+    }
+
+    public Tree(Node root) {
+        this.root = root;
+    }
 
     public int getDepth() {
         return depth;
     }
 
-//    public Node buildTree(double[][] dataset, int currDepth , int minSamplesSplit , int maxDepth) {
-//        double[][] X = new double[dataset.length][dataset[0].length - 1];
-//        double[] Y = new double[dataset.length];
-//        for (int i = 0; i < dataset.length; i++) {
-//            System.arraycopy(dataset[i], 0, X[i], 0, dataset[i].length - 1);
-//            Y[i] = dataset[i][dataset[i].length - 1];
-//        }
-//
-//        int numSamples = X.length;
-//        int numFeatures = X[0].length;
-//
-//        if (numSamples >= minSamplesSplit && currDepth <= maxDepth) {
-//            Map<String, Object> bestSplit = getBestSplit(dataset, numSamples, numFeatures);
-//
-//            if ((double) bestSplit.get("info_gain") > 0) {
-//                Node leftSubtree = buildTree((double[][]) bestSplit.get("dataset_left"), currDepth + 1);
-//                Node rightSubtree = buildTree((double[][]) bestSplit.get("dataset_right"), currDepth + 1);
-//
-//                return new Node(
-//                        (int) bestSplit.get("feature_index"),
-//                        (double) bestSplit.get("threshold"),
-//                        leftSubtree,
-//                        rightSubtree,
-//                        (double) bestSplit.get("info_gain")
-//                );
-//            }
-//        }
-//
-//        double leafValue = calculateLeafValue(Y);
-//        return new Node(leafValue);
-//    }
+    public int getFeatureIndex() {
+        return featureIndex;
+    }
 
-//    public Map<String, Object> getBestSplit(double[][] dataset, int numSamples, int numFeatures) {
-//        Map<String, Object> bestSplit = new HashMap<>();
-//        double maxInfoGain = Double.NEGATIVE_INFINITY;
-//
-//        for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
-//            double[] featureValues = new double[numSamples];
-//            for (int i = 0; i < numSamples; i++) {
-//                featureValues[i] = dataset[i][featureIndex];
-//            }
-//
-//            double[] possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
-//
-//            for (double threshold : possibleThresholds) {
-//                double[][] splitResult = split(dataset, featureIndex, threshold);
-//                double[][] datasetLeft = splitResult[0];
-//                double[][] datasetRight = splitResult[1];
-//
-//                if (datasetLeft.length > 0 && datasetRight.length > 0) {
-//                    double[] y = Arrays.copyOfRange(dataset[0], dataset[0].length - 1, numSamples);
-//                    double[] leftY = Arrays.copyOfRange(datasetLeft[0], datasetLeft[0].length - 1, datasetLeft.length);
-//                    double[] rightY = Arrays.copyOfRange(datasetRight[0], datasetRight[0].length - 1, datasetRight.length);
-//
-//                    double currInfoGain = informationGain(y, leftY, rightY, "gini");
-//
-//                    if (currInfoGain > maxInfoGain) {
-//                        bestSplit.put("feature_index", featureIndex);
-//                        bestSplit.put("threshold", threshold);
-//                        bestSplit.put("dataset_left", datasetLeft);
-//                        bestSplit.put("dataset_right", datasetRight);
-//                        bestSplit.put("info_gain", currInfoGain);
-//                        maxInfoGain = currInfoGain;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return bestSplit;
-//    }
+    public void setFeatureIndex(int featureIndex) {
+        this.featureIndex = featureIndex;
+    }
 
-//    public double[][] split(double[][] dataset, int featureIndex, double threshold) {
-//        List<double[]> datasetLeftList = new ArrayList<>();
-//        List<double[]> datasetRightList = new ArrayList<>();
-//
-//        for (double[] row : dataset) {
-//            if (row[featureIndex] <= threshold) {
-//                datasetLeftList.add(row);
-//            } else {
-//                datasetRightList.add(row);
-//            }
-//        }
-//
-//        double[][] datasetLeft = new double[datasetLeftList.size()][];
-//        double[][] datasetRight = new double[datasetRightList.size()][];
-//
-//        return new double[][]{
-//                datasetLeftList.toArray(datasetLeft),
-//                datasetRightList.toArray(datasetRight)
-//        };
-//    }
+    public int getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(int threshold) {
+        this.threshold = threshold;
+    }
+
+    public Node getRoot() {
+        return root;
+    }
+
+    public void setRoot(Node root) {
+        this.root = root;
+    }
 
     // Calculate information gain for every child of the parent node
     public double informationGain(Node parentNode) {
@@ -144,25 +88,6 @@ public class Tree {
 //        }
 //
 //        return 1 - gini;
-//    }
-
-//    public double calculateLeafValue(double[] Y) {
-//        Map<Double, Integer> counts = new HashMap<>();
-//        for (double value : Y) {
-//            counts.put(value, counts.getOrDefault(value, 0) + 1);
-//        }
-//
-//        double maxCount = Double.NEGATIVE_INFINITY;
-//        double leafValue = 0;
-//
-//        for (Map.Entry<Double, Integer> entry : counts.entrySet()) {
-//            if (entry.getValue() > maxCount) {
-//                maxCount = entry.getValue();
-//                leafValue = entry.getKey();
-//            }
-//        }
-//
-//        return leafValue;
 //    }
 
 }

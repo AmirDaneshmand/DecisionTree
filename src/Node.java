@@ -29,6 +29,12 @@ public class Node {
         this.setValue(value);
     }
 
+    public Node(double threshold, double infoGain, int featureIndex) {
+        this.featureIndex = featureIndex;
+        this.threshold = threshold;
+        this.infoGain = infoGain;
+    }
+
     public void setValue(double[] value) {
         System.arraycopy(value, 0, this.value, 0, value.length);
     }

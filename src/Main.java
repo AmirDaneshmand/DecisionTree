@@ -65,12 +65,12 @@ public class Main {
 //		System.out.println("Accuracy: " + accuracy);
 
         // Example usage with a list of children Nodes
-        Tree tree = new Tree();
         Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
         Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
         Node Parent = new Node(0 , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
         Parent.addChild(child1);
         Parent.addChild(child2);
+		Tree tree = new Tree(Parent);
         tree.informationGain(Parent);
         System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
         tree.informationGain(child1);
@@ -113,15 +113,7 @@ public class Main {
 //		// The implementation depends on the logic you want to follow for the split.
 //	}
 
-	// compare Y_true and Y_pred and calculate the accuracy of algorithm
-	public static double accuracyScore(double[] Y_true, double[] Y_pred) {
-		int correctPredicted = 0;
-		for (int i = 0; i < Y_true.length; i++) {
-			if (Y_true[i] == Y_pred[i])
-				correctPredicted++;
-		}
-		return (double) correctPredicted / Y_true.length * 100.0;
-	}
+
 //}
 
 //public class Main
