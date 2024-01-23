@@ -110,13 +110,15 @@ public class Tree {
             weight[i] = calculateChildWeight(childValues, parentNode.getValue());
             sumEntropies += weight[i] * entropy(childValues);
         }
-        gain = entropy(parentNode.getValue()) - sumEntropies;;
+        if (sumEntropies == 0)
+            System.out.println("this Node is leaf Node");
+        gain = entropy(parentNode.getValue()) - sumEntropies;
         parentNode.setInfoGain(gain);
         return gain;
     }
 
-    public double calculateChildWeight(double[] childNode, double[] parentNode) {
-        return (double) childNode.length / parentNode.length;
+    public double calculateChildWeight(double[] childValue, double[] parentValue) {
+        return (double) childValue.length / parentValue.length;
     }
 
     //calculate entropy for a set of numbers

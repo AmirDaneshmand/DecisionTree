@@ -54,8 +54,9 @@ public class Main {
         Node Parent = new Node(0 , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
         Parent.addChild(child1);
         Parent.addChild(child2);
-        tree.informationGain(Parent);
-        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
+        tree.informationGain(child1);
+//        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
+        System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
 //	}
 
 //	public static double[][] readCSV(String filePath, String[] colNames) {

@@ -69,4 +69,12 @@ public class Node {
     public void setChildrenNodes(List<Node> childrenNodes) {
         this.childrenNodes = childrenNodes;
     }
+
+    public List<double[]> getChildrenList() {
+        return childrenList;
+    }
+
+    public void setChildrenList(List<double[]> childrenList) {
+        this.childrenList = childrenList;
+    }
 }
