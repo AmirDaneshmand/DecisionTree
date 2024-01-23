@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -5,13 +8,27 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-//		// Load your dataset
-//		String[] colNames = {"HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack",
-//				"PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare",
-//				"NoDocbcCost", "GenHlth", "DiffWalk", "Sex", "Education", "Income"};
-//
-//		double[][] data = readCSV("../Data/feature_train.csv", colNames);
-//		double[][] label = readCSV("../Data/label_train.csv" , colNames);
+		// Load your dataset
+		String[] colNames = {"HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack",
+				"PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare",
+				"NoDocbcCost", "GenHlth", "DiffWalk", "Sex", "Education", "Income"};
+
+		double[][] data = readCSV("Data/feature_train.csv", colNames);
+		double[][] label = readCSV("Data/label_train.csv" , colNames);
+
+		//test for watching data on each sell of label_train.csv file
+        for (int i = 0; i < label.length; i++) {
+            System.out.print(label[i][0] + " ");
+        }
+        System.out.println("with lenght of " + label.length);
+
+		//test for watching data on each sell of feature_train.csv file
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.print(data[i][j] + " ");
+            }
+            System.out.println();
+        }
 //
 //		// Run ID3
 //		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(3, 3);
@@ -54,36 +71,37 @@ public class Main {
         Node Parent = new Node(0 , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
         Parent.addChild(child1);
         Parent.addChild(child2);
+        tree.informationGain(Parent);
+        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
         tree.informationGain(child1);
-//        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
         System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
-//	}
+	}
 
-//	public static double[][] readCSV(String filePath, String[] colNames) {
-//		List<double[]> dataList = new ArrayList<>();
-//
-//		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-//			String line;
-//			br.readLine(); // skip header
-//			while ((line = br.readLine()) != null) {
-//				String[] values = line.split(",");
-//				double[] row = new double[values.length];
-//				for (int i = 0; i < values.length; i++) {
-//					row[i] = Double.parseDouble(values[i]);
-//				}
-//				dataList.add(row);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		double[][] data = new double[dataList.size()][];
-//		for (int i = 0; i < dataList.size(); i++) {
-//			data[i] = dataList.get(i);
-//		}
-//
-//		return data;
-//	}
+	public static double[][] readCSV(String filePath, String[] colNames) {
+		List<double[]> dataList = new ArrayList<>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+			String line;
+			br.readLine(); // skip header
+			while ((line = br.readLine()) != null) {
+				String[] values = line.split(",");
+				double[] row = new double[values.length];
+				for (int i = 0; i < values.length; i++) {
+					row[i] = Double.parseDouble(values[i]);
+				}
+				dataList.add(row);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		double[][] data = new double[dataList.size()][];
+		for (int i = 0; i < dataList.size(); i++) {
+			data[i] = dataList.get(i);
+		}
+
+		return data;
+	}
 
 //	public static void trainTestSplit(
 //			double[][] X, double[] Y, double testSize, int randomState,
@@ -552,5 +570,5 @@ public class Main {
 //	public T getValue() {
 //		return data;
 //	}
-    }
+//    }
 }
