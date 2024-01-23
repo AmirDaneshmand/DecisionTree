@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Tree {
     int depth;
@@ -102,17 +100,22 @@ public class Tree {
 //    }
 
     // Calculate information gain for every child of the parent node
-    public double informationGain(List<double[]> childrenList, double[] parent) {
-        double [] weight = new double[childrenList.size()];
-        double SumEntropies = 0;
-        for (int i = 0; i < childrenList.size(); i++) {
-            weight[i] = calculateChildWeight(childrenList.get(i) , parent);
-            SumEntropies += weight[i] * entropy(childrenList.get(i));
+    public double informationGain(Node parentNode) {
+        double[] weight = new double[parentNode.getChildrenNodes().size()];
+        double sumEntropies = 0;
+        double[] childValues;
+        double gain;
+        for (int i = 0; i < parentNode.getChildrenNodes().size(); i++) {
+            childValues = parentNode.getChildrenNodes().get(i).getValue();
+            weight[i] = calculateChildWeight(childValues, parentNode.getValue());
+            sumEntropies += weight[i] * entropy(childValues);
         }
-        return entropy(parent) - SumEntropies;
+        gain = entropy(parentNode.getValue()) - sumEntropies;;
+        parentNode.setInfoGain(gain);
+        return gain;
     }
 
-    public double calculateChildWeight(double [] childNode , double [] parentNode){
+    public double calculateChildWeight(double[] childNode, double[] parentNode) {
         return (double) childNode.length / parentNode.length;
     }
 

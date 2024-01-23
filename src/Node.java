@@ -1,26 +1,30 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Node {
 
-    private Integer featureIndex;
-    private Double threshold;
-    private Node left;
-    private Node right;
-    private Double infoGain;
-    private int value;
-    private List<String> children;
+    private int featureIndex;
+    private double threshold;
+    private List<Node> childrenNodes = null;
+    private double infoGain;
+    private double[] value;
+    private List<double[]> childrenList = null;
 
-    public Node(Integer featureIndex, Double threshold, Node left, Node right, Double infoGain, int value, Map<String, Object> dictionary) {
-        this.featureIndex = featureIndex;
+    public Node(double[] value) {
+        this.value = value;
+        this.childrenNodes = new ArrayList<>();
+        this.childrenList = new ArrayList<>();
+        this.genChildren(this.childrenNodes);
+        this.setValue(value);
+    }
+
+    public Node(double threshold, double infoGain, double[] value) {
         this.threshold = threshold;
-        this.left = left;
-        this.right = right;
         this.infoGain = infoGain;
-        this.value = -1;
-        this.children = new ArrayList<>();
-        this.genChildren(dictionary);
+        this.value = value;
+        this.childrenNodes = new ArrayList<>();
+        this.childrenList = new ArrayList<>();
+        this.genChildren(this.childrenNodes);
         this.setValue(value);
     }
 
@@ -28,13 +32,41 @@ public class Node {
         return String.valueOf(this.value);
     }
 
-    public void setValue(int val) {
-        this.value = val;
+    public void setValue(double[] value) {
+        System.arraycopy(value, 0, this.value, 0, value.length);
     }
 
-    private void genChildren(Map<String, Object> dictionary) {
-        if (dictionary instanceof Map) {
-            this.children = new ArrayList<>(dictionary.keySet());
+    private void genChildren(List<Node> childrenNodes) {
+        for (Node child : childrenNodes) {
+            this.childrenList.add(child.getValue());
         }
+    }
+
+    public void addChild(Node child) {
+        try {
+            this.childrenNodes.add(child);
+        } catch (RuntimeException exception) {
+            throw new RuntimeException("couldn't add to childNodes List.");
+        }
+    }
+
+    public double getInfoGain() {
+        return infoGain;
+    }
+
+    public void setInfoGain(double infoGain) {
+        this.infoGain = infoGain;
+    }
+
+    public double[] getValue() {
+        return value;
+    }
+
+    public List<Node> getChildrenNodes() {
+        return childrenNodes;
+    }
+
+    public void setChildrenNodes(List<Node> childrenNodes) {
+        this.childrenNodes = childrenNodes;
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -46,17 +47,15 @@ public class Main {
 //		double accuracy = accuracyScore(Y_test, Y_pred);
 //		System.out.println("Accuracy: " + accuracy);
 
-
-        // Example usage with a list of children
+        // Example usage with a list of children Nodes
         Tree tree = new Tree();
-        List<double[]> childrenList = new ArrayList<>();
-        double[] child1 = {1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0};
-        double[] child2 = {1.0, 1.0, 1.0 , 5.0};
-        childrenList.add(child1);
-        childrenList.add(child2);
-
-        double[] parentNode = {1.0, 0.0, 1.0 , 2.0 , 3.0};
-        System.out.println(tree.informationGain(childrenList, parentNode));
+        Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
+        Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
+        Node Parent = new Node(0 , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
+        Parent.addChild(child1);
+        Parent.addChild(child2);
+        tree.informationGain(Parent);
+        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
 //	}
 
 //	public static double[][] readCSV(String filePath, String[] colNames) {
