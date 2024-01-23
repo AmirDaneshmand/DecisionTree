@@ -69,6 +69,7 @@ public class Main {
         System.out.println("information gain = " + tree.informationGain(Sample2ChildArray, SampleParentArray));
 //	}
 
+
 //	public static double[][] readCSV(String filePath, String[] colNames) {
 //		List<double[]> dataList = new ArrayList<>();
 //
