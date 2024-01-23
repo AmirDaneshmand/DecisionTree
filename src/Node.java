@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Node {
@@ -26,10 +27,6 @@ public class Node {
         this.childrenList = new ArrayList<>();
         this.genChildren(this.childrenNodes);
         this.setValue(value);
-    }
-
-    public String toString() {
-        return String.valueOf(this.value);
     }
 
     public void setValue(double[] value) {
@@ -76,5 +73,13 @@ public class Node {
 
     public void setChildrenList(List<double[]> childrenList) {
         this.childrenList = childrenList;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "childrenNodes=" + childrenNodes +
+                ", value=" + Arrays.toString(value) +
+                '}';
     }
 }

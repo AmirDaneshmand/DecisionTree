@@ -17,18 +17,18 @@ public class Main {
 		double[][] label = readCSV("Data/label_train.csv" , colNames);
 
 		//test for watching data on each sell of label_train.csv file
-        for (int i = 0; i < label.length; i++) {
-            System.out.print(label[i][0] + " ");
-        }
-        System.out.println("with lenght of " + label.length);
+//        for (int i = 0; i < label.length; i++) {
+//            System.out.print(label[i][0] + " ");
+//        }
+//        System.out.println("with lenght of " + label.length);
 
 		//test for watching data on each sell of feature_train.csv file
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                System.out.print(data[i][j] + " ");
-            }
-            System.out.println();
-        }
+//        for (int i = 0; i < data.length; i++) {
+//            for (int j = 0; j < data[i].length; j++) {
+//                System.out.print(data[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
 //
 //		// Run ID3
 //		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(3, 3);
@@ -77,6 +77,7 @@ public class Main {
         System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
 	}
 
+	//reads csv file line by line and passes an array of its data's
 	public static double[][] readCSV(String filePath, String[] colNames) {
 		List<double[]> dataList = new ArrayList<>();
 
@@ -112,11 +113,15 @@ public class Main {
 //		// The implementation depends on the logic you want to follow for the split.
 //	}
 
-//	public static double accuracyScore(double[] Y_true, double[] Y_pred) {
-//		// Implement accuracy score calculation similar to Python's sklearn.metrics.accuracy_score
-//		// You need to compare Y_true and Y_pred and calculate the accuracy.
-//		return 0.0; // Placeholder, replace with actual logic
-//	}
+	// compare Y_true and Y_pred and calculate the accuracy of algorithm
+	public static double accuracyScore(double[] Y_true, double[] Y_pred) {
+		int correctPredicted = 0;
+		for (int i = 0; i < Y_true.length; i++) {
+			if (Y_true[i] == Y_pred[i])
+				correctPredicted++;
+		}
+		return (double) correctPredicted / Y_true.length * 100.0;
+	}
 //}
 
 //public class Main
