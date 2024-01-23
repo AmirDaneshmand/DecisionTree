@@ -101,21 +101,15 @@ public class Tree {
 //        };
 //    }
 
-    float Entropy(float[] labels) {
-        return 0;
-    }
-
     // Calculate information gain for every child of the parent node
     public double informationGain(List<double[]> childrenList, double[] parent) {
         double [] weight = new double[childrenList.size()];
-        double gain;
         double SumEntropies = 0;
         for (int i = 0; i < childrenList.size(); i++) {
             weight[i] = calculateChildWeight(childrenList.get(i) , parent);
             SumEntropies += weight[i] * entropy(childrenList.get(i));
         }
-        gain = entropy(parent) - SumEntropies;
-        return gain;
+        return entropy(parent) - SumEntropies;
     }
 
     public double calculateChildWeight(double [] childNode , double [] parentNode){
