@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -43,30 +46,17 @@ public class Main {
 //		double accuracy = accuracyScore(Y_test, Y_pred);
 //		System.out.println("Accuracy: " + accuracy);
 
-        //first test entropy and information Gain
+
+        // Example usage with a list of children
         Tree tree = new Tree();
-        double[] SampleParentArray = new double[4];
-        SampleParentArray[0] = 1;
-        SampleParentArray[1] = 1;
-        SampleParentArray[2] = 2;
-        SampleParentArray[3] = 3;
+        List<double[]> childrenList = new ArrayList<>();
+        double[] child1 = {1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0};
+        double[] child2 = {1.0, 1.0, 1.0 , 5.0};
+        childrenList.add(child1);
+        childrenList.add(child2);
 
-        double[] SampleChildArray = new double[5];
-        SampleChildArray[0] = 1;
-        SampleChildArray[1] = 1;
-        SampleChildArray[2] = 1;
-        SampleChildArray[3] = 2;
-        SampleChildArray[4] = 3;
-
-        double[] Sample2ChildArray = new double[5];
-        Sample2ChildArray[0] = 1;
-        Sample2ChildArray[1] = 2;
-        Sample2ChildArray[2] = 2;
-        Sample2ChildArray[3] = 3;
-        Sample2ChildArray[4] = 3;
-
-        System.out.println("information gain = " + tree.informationGain(SampleChildArray, SampleParentArray));
-        System.out.println("information gain = " + tree.informationGain(Sample2ChildArray, SampleParentArray));
+        double[] parentNode = {1.0, 0.0, 1.0 , 2.0 , 3.0};
+        System.out.println(tree.informationGain(childrenList, parentNode));
 //	}
 
 //	public static double[][] readCSV(String filePath, String[] colNames) {
