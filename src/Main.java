@@ -16,26 +16,17 @@ public class Main {
 		double[][] data = readCSV("Data/feature_train.csv", colNames);
 		double[][] label = readCSV("Data/label_train.csv" , colNames);
 
-		//test for watching data on each sell of label_train.csv file
-//        for (int i = 0; i < label.length; i++) {
-//            System.out.print(label[i][0] + " ");
-//        }
-//        System.out.println("with lenght of " + label.length);
+		double [] label_temp = new double[label.length];
+		for (int i = 0; i < label.length; i++) {
+			label_temp[i] = label[i][0];
+		}
 
-		//test for watching data on each sell of feature_train.csv file
-//        for (int i = 0; i < data.length; i++) {
-//            for (int j = 0; j < data[i].length; j++) {
-//                System.out.print(data[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-//
-//		// Run ID3
-//		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(3, 3);
-//		Tree tree = new Tree();
-//		Node root = Dtree.buildTree(data, 0);
-//		System.out.println("Generated decision tree:");
-//
+		// Run ID3
+		Tree tree = new Tree(0 , 0);
+		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , data , label_temp);
+		Node root = Dtree.buildTree(data, 0 , 8878 , 5);
+		System.out.println("Generated decision tree:");
+
 //		// Train-Test split
 //		double[][] X = new double[data.length][data[0].length - 1];
 //		double[] Y = new double[data.length];
@@ -67,13 +58,13 @@ public class Main {
         // Example usage with a list of children Nodes
         Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
         Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
-        Node Parent = new Node(0 , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
+        Node Parent = new Node(new double[]{0} , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
         Parent.addChild(child1);
         Parent.addChild(child2);
-		Tree tree = new Tree(Parent);
-        tree.informationGain(Parent);
+		Tree Test_tree = new Tree(Parent);
+        Test_tree.informationGain(Parent);
         System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
-        tree.informationGain(child1);
+        Test_tree.informationGain(child1);
         System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
 	}
 

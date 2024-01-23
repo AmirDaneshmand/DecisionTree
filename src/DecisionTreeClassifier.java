@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DecisionTreeClassifier {
 
@@ -35,103 +38,145 @@ public class DecisionTreeClassifier {
 //        }
 //    }
 
+    //building tree based on calculating iGain and Entropy for each split
     public Node buildTree(double[][] dataset, int currDepth, int minSamplesSplit, int maxDepth) {
-        double[][] X = new double[dataset.length][dataset[0].length - 1];
-        double[] Y = new double[dataset.length];
-        for (int i = 0; i < dataset.length; i++) {
-            System.arraycopy(dataset[i], 0, X[i], 0, dataset[i].length - 1);
-            Y[i] = dataset[i][dataset[i].length - 1];
-        }
+        split(dataset, 0, 0, new double[]{0, 1});
 
-        int numSamples = X.length;
-        int numFeatures = X[0].length;
-
-        if (numSamples >= minSamplesSplit && currDepth <= maxDepth) {
-            Map<String, Object> bestSplit = getBestSplit(dataset, numSamples, numFeatures);
-
-            if ((double) bestSplit.get("info_gain") > 0) {
-                Node leftSubtree = buildTree((double[][]) bestSplit.get("dataset_left"), currDepth + 1,
-                        minSamplesSplit, maxDepth);
-                Node rightSubtree = buildTree((double[][]) bestSplit.get("dataset_right"), currDepth + 1,
-                        minSamplesSplit, maxDepth);
-
-                return new Node((int) bestSplit.get("threshold"), (double) bestSplit.get("info_gain"), (int) bestSplit.get("feature_index"));
-//                return new Node(
-//                        (int) bestSplit.get("feature_index"),
-//                        (double) bestSplit.get("threshold"),
-//                        leftSubtree,
-//                        rightSubtree,
-//                        (double) bestSplit.get("info_gain")
-//                );
-            }
-        }
-
-        double[] leafValue = calculateLeafValue(Y);
-        return new Node(leafValue);
+        return null;
+//        double[][] X = new double[dataset.length][dataset[0].length - 1];
+//        double[] Y = new double[dataset.length];
+//        for (int i = 0; i < dataset.length; i++) {
+//            System.arraycopy(dataset[i], 0, X[i], 0, dataset[i].length - 1);
+//            Y[i] = dataset[i][dataset[i].length - 1];
+//        }
+//        int numSamples = X.length;
+//        int numFeatures = X[0].length + 1;
+//        if (numSamples >= minSamplesSplit && currDepth <= maxDepth) {
+//            Map<String, Object> bestSplit = getBestSplit(dataset, numSamples, numFeatures);
+//
+//            if ((double) bestSplit.get("info_gain") > 0) {
+//                Node leftSubtree = buildTree((double[][]) bestSplit.get("dataset_left"), currDepth + 1,
+//                        minSamplesSplit, maxDepth);
+//                Node rightSubtree = buildTree((double[][]) bestSplit.get("dataset_right"), currDepth + 1,
+//                        minSamplesSplit, maxDepth);
+//
+//                return new Node((int) bestSplit.get("threshold"), (double) bestSplit.get("info_gain"), (int) bestSplit.get("feature_index"));
+//            }
+//        }
+//
+//        double[] leafValue = calculateLeafValue(Y);
+//        return new Node(leafValue);
     }
 
     public Map<String, Object> getBestSplit(double[][] dataset, int numSamples, int numFeatures) {
-        Map<String, Object> bestSplit = new HashMap<>();
-        double maxInfoGain = Double.NEGATIVE_INFINITY;
-
-        for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
-            double[] featureValues = new double[numSamples];
-            for (int i = 0; i < numSamples; i++) {
-                featureValues[i] = dataset[i][featureIndex];
-            }
-
-            double[] possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
-
-            for (double threshold : possibleThresholds) {
-                List<double[][]> splitResult = split(dataset, featureIndex, threshold);
-                double[][] datasetLeft = splitResult.get(0);
-                double[][] datasetRight = splitResult.get(1);
-
-                if (datasetLeft.length > 0 && datasetRight.length > 0) {
-                    double[] y = Arrays.copyOfRange(dataset[0], dataset[0].length - 1, numSamples);
-                    double[] leftY = Arrays.copyOfRange(datasetLeft[0], datasetLeft[0].length - 1, datasetLeft.length);
-                    double[] rightY = Arrays.copyOfRange(datasetRight[0], datasetRight[0].length - 1, datasetRight.length);
-
-                    Node parent = new Node(y);
-                    Node leftNode = new Node(leftY);
-                    Node rightNode = new Node(rightY);
-                    parent.addChild(leftNode);
-                    parent.addChild(rightNode);
-                    double currInfoGain = tree.informationGain(parent);
-
-                    if (currInfoGain > maxInfoGain) {
-                        bestSplit.put("feature_index", featureIndex);
-                        bestSplit.put("threshold", threshold);
-                        bestSplit.put("dataset_left", datasetLeft);
-                        bestSplit.put("dataset_right", datasetRight);
-                        bestSplit.put("info_gain", currInfoGain);
-                        maxInfoGain = currInfoGain;
-                    }
-                }
-            }
-        }
-
-        return bestSplit;
+//        Map<String, Object> bestSplit = new HashMap<>();
+//        double maxInfoGain = Double.NEGATIVE_INFINITY;
+//
+//        for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
+//            double[] featureValues = new double[numSamples];
+//            for (int i = 0; i < numSamples; i++) {
+//                featureValues[i] = dataset[i][featureIndex];
+//            }
+//
+//            double[] possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
+//
+//            for (double threshold : possibleThresholds) {
+//                List<double[][]> splitResult = split(dataset, featureIndex, threshold);
+//                double[][] datasetLeft = splitResult.get(0);
+//                double[][] datasetRight = splitResult.get(1);
+//
+//                if (datasetLeft.length > 0 && datasetRight.length > 0) {
+//                    double[] y = Arrays.copyOfRange(dataset[0], dataset[0].length - 1, numSamples);
+//                    double[] leftY = Arrays.copyOfRange(datasetLeft[0], datasetLeft[0].length - 1, datasetLeft.length);
+//                    double[] rightY = Arrays.copyOfRange(datasetRight[0], datasetRight[0].length - 1, datasetRight.length);
+//
+//                    Node parent = new Node(y);
+//                    Node leftNode = new Node(leftY);
+//                    Node rightNode = new Node(rightY);
+//                    parent.addChild(leftNode);
+//                    parent.addChild(rightNode);
+//                    double currInfoGain = tree.informationGain(parent);
+//
+//                    if (currInfoGain > maxInfoGain) {
+//                        bestSplit.put("feature_index", featureIndex);
+//                        bestSplit.put("threshold", threshold);
+//                        bestSplit.put("dataset_left", datasetLeft);
+//                        bestSplit.put("dataset_right", datasetRight);
+//                        bestSplit.put("info_gain", currInfoGain);
+//                        maxInfoGain = currInfoGain;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return bestSplit;
+        return null;
     }
 
-    public List<double[][]> split(double[][] dataset, int featureIndex, double threshold) {
-        List<double[]> datasetLeftList = new ArrayList<>();
-        List<double[]> datasetRightList = new ArrayList<>();
+    public List<double[][]> split(double[][] dataset, int featureIndex, double threshold, double[] thresholdValues) {
+//        List<double[]> datasetLeftList = new ArrayList<>();
+//        List<double[]> datasetRightList = new ArrayList<>();
+
+        List<double[]> datasetList1 = new ArrayList<>();
+        List<double[]> datasetList2 = new ArrayList<>();
+        List<double[]> datasetList3 = new ArrayList<>();
+        List<double[]> datasetList4 = new ArrayList<>();
+        List<double[]> datasetList5 = new ArrayList<>();
+        List<double[]> datasetList6 = new ArrayList<>();
+        List<double[]> datasetList7 = new ArrayList<>();
 
         for (double[] row : dataset) {
-            if (row[featureIndex] <= threshold) {
-                datasetLeftList.add(row);
-            } else {
-                datasetRightList.add(row);
-            }
+//            if (row[featureIndex] <= threshold) {
+//                datasetLeftList.add(row);
+//            } else {
+//                datasetRightList.add(row);
+//            }
+
+            if (row[featureIndex] <= thresholdValues[0])
+                datasetList1.add(row);
+            else if (row[featureIndex] > thresholdValues[0] && row[featureIndex] <= thresholdValues[1])
+                datasetList2.add(row);
+            else if (row[featureIndex] > thresholdValues[1] && row[featureIndex] <= thresholdValues[2])
+                datasetList3.add(row);
+            else if (row[featureIndex] > thresholdValues[2] && row[featureIndex] <= thresholdValues[3])
+                datasetList4.add(row);
+            else if (row[featureIndex] > thresholdValues[3] && row[featureIndex] <= thresholdValues[4])
+                datasetList5.add(row);
+            else if (row[featureIndex] > thresholdValues[4] && row[featureIndex] <= thresholdValues[5])
+                datasetList6.add(row);
+            else if (row[featureIndex] > thresholdValues[5] && row[featureIndex] <= thresholdValues[6])
+                datasetList7.add(row);
         }
 
-        double[][] datasetLeft = new double[datasetLeftList.size()][];
-        double[][] datasetRight = new double[datasetRightList.size()][];
+//        double[][] datasetLeft = new double[datasetLeftList.size()][];
+//        double[][] datasetRight = new double[datasetRightList.size()][];
+        System.out.println("datasetList2 values = ");
+        for (int j = 0; j < datasetList2.size(); j++) {
+            for (int i = 0; i < 17; i++) {
+                System.out.print(datasetList2.get(j)[i] + " ");
+            }
+            System.out.println();
+        }
+
+        double[][] dataset1 = new double[datasetList1.size()][];
+        double[][] dataset2 = new double[datasetList2.size()][];
+        double[][] dataset3 = new double[datasetList3.size()][];
+        double[][] dataset4 = new double[datasetList4.size()][];
+        double[][] dataset5 = new double[datasetList5.size()][];
+        double[][] dataset6 = new double[datasetList6.size()][];
+        double[][] dataset7 = new double[datasetList7.size()][];
 
         List<double[][]> result = new ArrayList<>();
-        result.add(0, datasetLeft);
-        result.add(1, datasetRight);
+//        result.add(0, datasetLeft);
+//        result.add(1, datasetRight);
+
+        result.add(0, dataset1);
+        result.add(1, dataset2);
+        result.add(2, dataset3);
+        result.add(3, dataset4);
+        result.add(4, dataset5);
+        result.add(5, dataset6);
+        result.add(6, dataset7);
         return result;
     }
 

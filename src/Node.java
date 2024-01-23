@@ -5,7 +5,7 @@ import java.util.List;
 public class Node {
 
     private int featureIndex;
-    private double threshold;
+    private double[] threshold;
     private List<Node> childrenNodes = null;
     private double infoGain;
     private double[] value;
@@ -19,7 +19,7 @@ public class Node {
         this.setValue(value);
     }
 
-    public Node(double threshold, double infoGain, double[] value) {
+    public Node(double[] threshold, double infoGain, double[] value) {
         this.threshold = threshold;
         this.infoGain = infoGain;
         this.value = value;
@@ -29,7 +29,7 @@ public class Node {
         this.setValue(value);
     }
 
-    public Node(double threshold, double infoGain, int featureIndex) {
+    public Node(double[] threshold, double infoGain, int featureIndex) {
         this.featureIndex = featureIndex;
         this.threshold = threshold;
         this.infoGain = infoGain;
