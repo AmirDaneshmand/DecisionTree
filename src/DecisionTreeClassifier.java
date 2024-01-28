@@ -159,6 +159,7 @@ public class DecisionTreeClassifier {
         return false;
     }
 
+    //splits 2-D dataset array and pass a List of 2-D arrays of split data's
     public List<double[][]> split(double[][] dataset, int featureIndex, double[] thresholdValues) {
 //        List<double[]> datasetLeftList = new ArrayList<>();
 //        List<double[]> datasetRightList = new ArrayList<>();
@@ -204,26 +205,39 @@ public class DecisionTreeClassifier {
 //            }
 //            System.out.println();
 //        }
+        List<double[][]> result = new ArrayList<>();
 
         double[][] dataset1 = new double[datasetList1.size()][];
+        result.add(0, dataset1);
         double[][] dataset2 = new double[datasetList2.size()][];
-        double[][] dataset3 = new double[datasetList3.size()][];
-        double[][] dataset4 = new double[datasetList4.size()][];
-        double[][] dataset5 = new double[datasetList5.size()][];
-        double[][] dataset6 = new double[datasetList6.size()][];
-        double[][] dataset7 = new double[datasetList7.size()][];
-
-        List<double[][]> result = new ArrayList<>();
+        result.add(1, dataset2);
+        double[][] dataset3;
+        if (!datasetList3.isEmpty()) {
+            dataset3 = new double[datasetList3.size()][];
+            result.add(2, dataset3);
+        }
+        double[][] dataset4;
+        if (!datasetList4.isEmpty()) {
+            dataset4 = new double[datasetList4.size()][];
+            result.add(3, dataset4);
+        }
+        double[][] dataset5;
+        if (!datasetList5.isEmpty()) {
+            dataset5 = new double[datasetList5.size()][];
+            result.add(4, dataset5);
+        }
+        double[][] dataset6;
+        if (!datasetList6.isEmpty()) {
+            dataset6 = new double[datasetList6.size()][];
+            result.add(5, dataset6);
+        }
+        double[][] dataset7;
+        if (!datasetList7.isEmpty()) {
+            dataset7 = new double[datasetList7.size()][];
+            result.add(6, dataset7);
+        }
 //        result.add(0, datasetLeft);
 //        result.add(1, datasetRight);
-
-        result.add(0, dataset1);
-        result.add(1, dataset2);
-        result.add(2, dataset3);
-        result.add(3, dataset4);
-        result.add(4, dataset5);
-        result.add(5, dataset6);
-        result.add(6, dataset7);
         return result;
     }
 
@@ -252,6 +266,7 @@ public class DecisionTreeClassifier {
     //    public float[] predictAll(float[][] data, int depth) {
 //        return new float[0];
 //    }
+    //Not Implemented Yet .
     public double[] calculateLeafValue(double[] Y) {
         Map<Double, Integer> counts = new HashMap<>();
         for (double value : Y) {
@@ -271,6 +286,7 @@ public class DecisionTreeClassifier {
         return new double[]{leafValue};
     }
 
+    // Not Implemented Yet
     // compare correctLabels and predictedLabels and calculate the accuracy of algorithm
     public double accuracyScore(double[] correctLabels, double[] predictedLabels) {
         int correctPredicted = 0;
