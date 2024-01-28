@@ -44,7 +44,7 @@ public class DecisionTreeClassifier {
         // Extract information from the best split
         int featureIndex = (int) bestSplit.get("feature_index");
         double[] thresholds = (double[]) bestSplit.get("threshold");
-        double[][] root = (double[][]) bestSplit.get("dataset1");
+        double[][] dataset1 = (double[][]) bestSplit.get("dataset1");
         double[][] dataset2 = (double[][]) bestSplit.get("dataset2");
         double[][] dataset3 = (double[][]) bestSplit.get("dataset3");
         double[][] dataset4 = (double[][]) bestSplit.get("dataset4");
@@ -55,14 +55,23 @@ public class DecisionTreeClassifier {
 
         // Check conditions for building subtrees
         if (infoGain > 0 && currDepth <= maxDepth) {
-            Node leftSubtree = buildTree(dataset2, currDepth + 1, minSamplesSplit, maxDepth);
-            Node rightSubtree = buildTree(dataset3, currDepth + 1, minSamplesSplit, maxDepth);
+            Node SubTree1 = buildTree(dataset1 , currDepth + 1 , minSamplesSplit , maxDepth);
+            Node SubTree2 = buildTree(dataset2 , currDepth + 1 , minSamplesSplit , maxDepth);
+            Node SubTree3 = buildTree(dataset3 , currDepth + 1 , minSamplesSplit , maxDepth);
+            Node SubTree4 = buildTree(dataset4 , currDepth + 1 , minSamplesSplit , maxDepth);
+            Node SubTree5 = buildTree(dataset5 , currDepth + 1 , minSamplesSplit , maxDepth);
+            Node SubTree6 = buildTree(dataset6 , currDepth + 1 , minSamplesSplit , maxDepth);
+            Node SubTree7 = buildTree(dataset7 , currDepth + 1 , minSamplesSplit , maxDepth);
+
+//            Node leftSubtree = buildTree(dataset2, currDepth + 1, minSamplesSplit, maxDepth);
+//            Node rightSubtree = buildTree(dataset3, currDepth + 1, minSamplesSplit, maxDepth);
 
             // Return a non-leaf node
             return new Node(thresholds, infoGain, featureIndex);
         } else {
             // Return a leaf node
-            double[] leafValue = calculateLeafValue(dataset);
+            double[] X  = Arrays.copyOf(dataset[0] , dataset[0].length);
+            double[] leafValue = calculateLeafValue(X);
             return new Node(leafValue);
         }
 
