@@ -67,7 +67,7 @@ public class DecisionTreeClassifier {
 //            Node rightSubtree = buildTree(dataset3, currDepth + 1, minSamplesSplit, maxDepth);
 
             // Return a non-leaf node
-            return new Node(thresholds, infoGain, featureIndex);
+//            return new Node(thresholds, infoGain, featureIndex);
         } else {
             // Return a leaf node
             double[] X  = Arrays.copyOf(dataset[0] , dataset[0].length);
@@ -97,8 +97,7 @@ public class DecisionTreeClassifier {
 //        }
 
 //        double[] leafValue = calculateLeafValue(Y);
-        return new Node(root);
-        return null;
+        return new Node((double[]) bestSplit.get("value"), (double) bestSplit.get("info_gain"), (int) bestSplit.get("threshold"));
     }
 
     //calculates Possible threshold and find the best split for a given dataset
