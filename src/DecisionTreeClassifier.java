@@ -118,13 +118,41 @@ public class DecisionTreeClassifier {
 //                double[][] datasetLeft = splitResult.get(0);
 //                double[][] datasetRight = splitResult.get(1);
 
-            double[][] dataset1 = splitResult.get(1);
-            double[][] dataset2 = splitResult.get(2);
-            double[][] dataset3 = splitResult.get(3);
-            double[][] dataset4 = splitResult.get(4);
-            double[][] dataset5 = splitResult.get(5);
-            double[][] dataset6 = splitResult.get(6);
-            double[][] dataset7 = splitResult.get(7);
+            double[][] dataset1 = null;
+            double[][] dataset2= null;
+            double[][] dataset3= null;
+            double[][] dataset4= null;
+            double[][] dataset5= null;
+            double[][] dataset6= null;
+            double[][] dataset7= null;
+            if(splitResult.size()>1){
+                dataset1 = splitResult.get(1);
+            }
+             if(splitResult.size()>2){
+                 dataset2 = splitResult.get(2);
+            }
+             if(splitResult.size()>3){
+                dataset3 = splitResult.get(3);
+            }
+             if(splitResult.size()>4){
+                dataset4 = splitResult.get(4);
+            }
+             if(splitResult.size()>5){
+                dataset5 = splitResult.get(5);
+            }
+             if(splitResult.size()>6){
+                 dataset6 = splitResult.get(6);
+            }
+            if(splitResult.size()>7){
+                 dataset7 = splitResult.get(7);
+            }
+
+//            double[][] dataset2 = splitResult.get(2);
+//            double[][] dataset3 = splitResult.get(3);
+//            double[][] dataset4 = splitResult.get(4);
+//            double[][] dataset5 = splitResult.get(5);
+//            double[][] dataset6 = splitResult.get(6);
+//            double[][] dataset7 = splitResult.get(7);
 
             if (splitResult.get(1).length > 0) {
 //                double[] y = Arrays.copyOfRange(dataset[0], dataset[0].length - 1, numSamples);
