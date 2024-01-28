@@ -111,13 +111,12 @@ public class DecisionTreeClassifier {
                 featureValues[i] = dataset[i][featureIndex];
             }
 
-            double[] possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
+            double[] possibleThresholds = calculatethresholdvalues(featureValues);
 
 //            for (double threshold : possibleThresholds) {
             List<double[][]> splitResult = split(dataset, featureIndex, possibleThresholds);
 //                double[][] datasetLeft = splitResult.get(0);
 //                double[][] datasetRight = splitResult.get(1);
-
             double[][] dataset1 = splitResult.get(1);
             double[][] dataset2 = splitResult.get(2);
             double[][] dataset3 = splitResult.get(3);
@@ -195,6 +194,27 @@ public class DecisionTreeClassifier {
         }
 
         return bestSplit;
+    }
+
+    //calculate possible threshold
+    private double[] calculatethresholdvalues(double[] featureValues) {
+        double[] possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
+        Random random = null;
+        int randomindex;
+        // Select 3 items randomly from the selected items
+        int numItemsToSelect;
+        if (featureValues.length > 3 && featureValues.length <= 5){
+            for (int i = 0; i < 3; i++) {
+                randomindex = random.nextInt(featureValues.length);
+                possibleThresholds[i] = featureValues[randomindex];
+            }
+        } else if (featureValues.length >= 6) {
+            for (int i = 0; i < 4; i++) {
+                randomindex = random.nextInt(featureValues.length);
+                possibleThresholds[i] = featureValues[randomindex];
+            }
+        }
+        return possibleThresholds;
     }
 
     //adds a dataset values to a child node and then add it to a parent node
