@@ -198,21 +198,21 @@ public class DecisionTreeClassifier {
 
     //calculate possible threshold
     private double[] calculatethresholdvalues(double[] featureValues) {
-        double[] possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
+        double[] possibleThresholds = new double[7];
         Random random = null;
         int randomindex;
         // Select 3 items randomly from the selected items
-        int numItemsToSelect;
-        if (featureValues.length > 3 && featureValues.length <= 5){
-            for (int i = 0; i < 3; i++) {
-                randomindex = random.nextInt(featureValues.length);
-                possibleThresholds[i] = featureValues[randomindex];
-            }
+        if (featureValues.length >= 4 && featureValues.length <= 5){
+            possibleThresholds[0] = featureValues[0];
+            possibleThresholds[1] = featureValues[2];
+            possibleThresholds[2] = featureValues[4];
         } else if (featureValues.length >= 6) {
-            for (int i = 0; i < 4; i++) {
-                randomindex = random.nextInt(featureValues.length);
-                possibleThresholds[i] = featureValues[randomindex];
-            }
+            possibleThresholds[0] = featureValues[0];
+            possibleThresholds[1] = featureValues[2];
+            possibleThresholds[2] = featureValues[4];
+            possibleThresholds[3] = featureValues[6];
+        }else {
+            possibleThresholds = Arrays.stream(featureValues).distinct().toArray();
         }
         return possibleThresholds;
     }
