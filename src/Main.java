@@ -24,7 +24,7 @@ public class Main {
 		// Run ID3
 		Tree tree = new Tree(0 , 0);
 		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , data , label_temp);
-		Node root = Dtree.buildTree(data, 0 , 8878 , 5);
+		Node root = Dtree.buildTree(data, 0 , 8878 );
 		System.out.println("Generated decision tree:");
 
 //		// Train-Test split
