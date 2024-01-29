@@ -113,14 +113,13 @@ public class DecisionTreeClassifier {
 
             double[] uniqueFeatureValues = new double[17];
 
-            // Adding each element to uniqueFeatureValues
+            // Adding unique elements to uniqueFeatureValues
             for (int i = 0 ; i < featureValues.length ; i++) {
                 uniqueFeatureValues = Arrays.stream(featureValues).distinct().toArray();
             }
-
-            System.out.println("featureIndex = " + featureIndex);
+            // Sort the uniqueFeatureValues array
+            Arrays.sort(uniqueFeatureValues);
             double[] possibleThresholds = calculatethresholdvalues(uniqueFeatureValues);
-            System.out.println("out of possibleThreshold");
             List<double[][]> splitResult = split(dataset, featureIndex, possibleThresholds);
             double[][] dataset1;
             if (splitResult.get(1) != null) {
@@ -195,24 +194,19 @@ public class DecisionTreeClassifier {
     //calculate possible threshold
     private double[] calculatethresholdvalues(double[] featureValues) {
         double[] possibleThresholds = new double[7];
-        Random random = null;
-        int randomindex;
         // Select 3 items randomly from the selected items
         if (featureValues.length >= 2 && featureValues.length <= 3){
             possibleThresholds[0] = featureValues[0];
             possibleThresholds[1] = featureValues[1];
-            System.out.println("gorgAli1");
         }else if (featureValues.length >= 4 && featureValues.length <= 5){
             possibleThresholds[0] = featureValues[0];
             possibleThresholds[1] = featureValues[2];
             possibleThresholds[2] = featureValues[4];
-            System.out.println("gorgAli2");
         } else if (featureValues.length >= 6) {
             possibleThresholds[0] = featureValues[0];
             possibleThresholds[1] = featureValues[2];
             possibleThresholds[2] = featureValues[4];
             possibleThresholds[3] = featureValues[6];
-            System.out.println("gorgAli3");
         }
 //        for (int i = 0; i < 7; i++) {
 //            System.out.println("possibleThreshold = " + possibleThresholds[i]);
@@ -242,9 +236,7 @@ public class DecisionTreeClassifier {
 //        List<double[]> datasetList6 = new ArrayList<>();
 //        List<double[]> datasetList7 = new ArrayList<>();
 
-        for (int i = 0; i < thresholdValues.length; i++) {
-            System.out.println(thresholdValues[i] + " ");
-        }
+        System.out.println("featureIndex = " + featureIndex);
 
         for (double[] row : dataset) {
             if (row[featureIndex] <= thresholdValues[0])
@@ -263,7 +255,7 @@ public class DecisionTreeClassifier {
 //                datasetList7.add(row);
         }
 
-        //test for correct spliting dataset
+        //test for correct splitting dataset
         System.out.println("datasetList1 values = ");
         for (int j = 0; j < datasetList1.size(); j++) {
             for (int i = 0; i < 17; i++) {
