@@ -10,6 +10,7 @@ public class Node {
     private double infoGain;
     private double[] value;
     private List<double[]> childrenList = null;
+    Boolean isLeaf;
 
     public Node(double[] value) {
         this.value = value;
@@ -79,6 +80,14 @@ public class Node {
 
     public void setChildrenList(List<double[]> childrenList) {
         this.childrenList = childrenList;
+    }
+
+    public Boolean getLeaf() {
+        return isLeaf;
+    }
+
+    public void setLeaf(Boolean leaf) {
+        isLeaf = leaf;
     }
 
     @Override
