@@ -87,16 +87,27 @@ public class DecisionTreeClassifier {
         return new Node((double[]) bestSplit.get("value"), (double) bestSplit.get("info_gain"), (int) bestSplit.get("threshold"));
     }
 
-    private boolean checkLeaf(List<double[][]> splitResult , int featureIndex , int i){
-        double[][] chechDouble = splitResult.get(i);
-        int end =chechDouble[featureIndex].length;
-        double equals = chechDouble[chechDouble.length-1][0];
+    private boolean checkLeaf(double[][] splitResult , int featureIndex){
+
+
+        int end = splitResult[featureIndex].length;
+        double equals = splitResult[splitResult.length-1][0];
         for (int j = 0; j < end; j++) {
-            if(chechDouble[featureIndex][j]!=equals){
+           if(splitResult[splitResult.length-1][j]!=equals){
                 return false;
-            }
+           }
         }
         return true;
+
+//        double[][] chechDouble = splitResult;
+//        int end =chechDouble[featureIndex].length;
+//        double equals = chechDouble[chechDouble.length-1][0];
+//        for (int j = 0; j < end; j++) {
+//            if(chechDouble[featureIndex][j]!=equals){
+//                return false;
+//            }
+//        }
+//        return true;
     }
     //calculates Possible threshold and find the best split for a given dataset
     public Map<String, Object> getBestSplit(double[][] dataset, int numSamples, int numFeatures, int[] labels) {
@@ -129,7 +140,6 @@ public class DecisionTreeClassifier {
 
             //check for leaf or decision Node
 
-           // boolean isLeaf = checkLeaf(splitResult,featureIndex,i);
 
 
             //add each child node to its parent
