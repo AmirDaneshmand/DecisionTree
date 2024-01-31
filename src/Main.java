@@ -16,15 +16,15 @@ public class Main {
 		double[][] data = readCSV("Data/feature_train.csv", colNames);
 		double[][] label = readCSV("Data/label_train.csv" , colNames);
 
-		double [] label_temp = new double[label.length];
+		int [] label_temp = new int[label.length];
 		for (int i = 0; i < label.length; i++) {
-			label_temp[i] = label[i][0];
+			label_temp[i] =(int) label[i][0];
 		}
 
 		// Run ID3
 		Tree tree = new Tree(0 , 0);
 		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , data , label_temp);
-		Node root = Dtree.buildTree(data, 0 , 8878 , 5);
+		Node root = Dtree.buildTree(data, 0 , 6);
 		System.out.println("Generated decision tree:");
 
 //		// Train-Test split
