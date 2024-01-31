@@ -230,17 +230,14 @@ public class DecisionTreeClassifier {
         for (int i = 0; i < dataset.length; i++) {
             double[] temp = new double[numFeatures + 1];
             System.arraycopy(dataset[i], 0, temp, 0, numFeatures);
+            temp[numFeatures] = labels[i];
             if (dataset[i][featureIndex] <= thresholdValues[0]) {
-                temp[numFeatures] = labels[i];
                 datasetlist1.add(temp);
             } else if (dataset[i][featureIndex] > thresholdValues[0] && dataset[i][featureIndex] <= thresholdValues[1]) {
-                temp[numFeatures] = labels[i];
                 datasetlist2.add(temp);
             } else if (dataset[i][featureIndex] > thresholdValues[1] && dataset[i][featureIndex] <= thresholdValues[2]) {
-                temp[numFeatures] = labels[i];
                 datasetlist3.add(temp);
             } else if (dataset[i][featureIndex] > thresholdValues[2] && dataset[i][featureIndex] <= thresholdValues[3]) {
-                temp[numFeatures] = labels[i];
                 datasetlist4.add(temp);
             }
         }
