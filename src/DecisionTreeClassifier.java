@@ -88,27 +88,14 @@ public class DecisionTreeClassifier {
     }
 
     //check for leaf or decision Node
-    private boolean checkLeaf(double[][] splitResult , int featureIndex){
-        int end = splitResult[featureIndex].length;
-        System.out.println("SplitResult.lenght = " + splitResult.length);
+    private boolean checkLeaf(double[][] splitResult, int featureIndex) {
         double equals = splitResult[0][17];
-        System.out.println("equals = " + equals);
         for (int j = 0; j < splitResult.length; j++) {
-            System.out.println("splitResult[splitResult.length-1][j] = " + splitResult[j][17]);
-           if(splitResult[j][17]!=equals){
+            if (splitResult[j][17] != equals) {
                 return false;
-           }
+            }
         }
         return true;
-//        double[][] chechDouble = splitResult;
-//        int end =chechDouble[featureIndex].length;
-//        double equals = chechDouble[chechDouble.length-1][0];
-//        for (int j = 0; j < end; j++) {
-//            if(chechDouble[featureIndex][j]!=equals){
-//                return false;
-//            }
-//        }
-//        return true;
     }
     //calculates Possible threshold and find the best split for a given dataset
     public Map<String, Object> getBestSplit(double[][] dataset, int numSamples, int numFeatures, int[] labels) {
@@ -117,7 +104,6 @@ public class DecisionTreeClassifier {
 
         for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
             double[] featureValues = new double[numSamples];
-            System.out.println(dataset.length);
             for (int i = 0; i < dataset.length - 1; i++) {
                 featureValues[i] = dataset[i][featureIndex];
             }
@@ -141,38 +127,8 @@ public class DecisionTreeClassifier {
             List<double[][]> splitResult = split(temp, labels, featureIndex, possibleThresholds, numFeatures);
 
             //add each child node to its parent
-            Node parent = new Node(featureIndex , false);
-            Node childNode1;
-            if (splitResult.get(0) != null && checkLeaf(splitResult.get(0) , featureIndex)) {
-                childNode1 = new Node(splitResult.get(0), true);
-                parent.addChild(childNode1);
-                System.out.println("gorgali");
-            }
-//            else
-//                getBestSplit(splitResult.get(0), numSamples , numFeatures , labels);
-            Node childNode2;
-            if (splitResult.get(1) != null && checkLeaf(splitResult.get(1) , featureIndex)) {
-                childNode2 = new Node(splitResult.get(1), true);
-                parent.addChild(childNode2);
-                System.out.println("gorgali2");
-            }
-//            else
-//                getBestSplit(splitResult.get(1), numSamples , numFeatures , labels);
-//            Node childNode3;
-//            if (splitResult.get(2) != null && checkLeaf(splitResult.get(2) , featureIndex)) {
-//                childNode3 = new Node(splitResult.get(2), true);
-//                parent.addChild(childNode3);
-//            }
-//            else
-//                getBestSplit(splitResult.get(2), numSamples , numFeatures , labels);
-//            Node childNode4;
-//            if (splitResult.get(3) != null && checkLeaf(splitResult.get(3) , featureIndex)) {
-//                childNode4 = new Node(splitResult.get(3), true);
-//                parent.addChild(childNode4);
-//            }
-//            else
-//                getBestSplit(splitResult.get(3), numSamples , numFeatures , labels);
-
+            Node parent = new Node(featureIndex, false);
+            setChildren(splitResult , parent , featureIndex);
 //            double[] dataset1;
 //            if (splitResult.get(0) != null) {
 //                dataset1 = splitResult.get(0);
@@ -213,10 +169,20 @@ public class DecisionTreeClassifier {
 //                    bestSplit.put("info_gain", currInfoGain);
 //                    maxInfoGain = currInfoGain;
 //                }
-//            }
-        }
-
+            }
         return bestSplit;
+    }
+    //gets splitted result and add them to parent Node
+    private void setChildren(List<double[][]> splitResult ,Node parent, int featureIndex){
+        if (!splitResult.isEmpty()) {
+            for (int i = 0; i < splitResult.size(); i++) {
+                Node childNode;
+                if (splitResult.get(i) != null && checkLeaf(splitResult.get(i), featureIndex)) {
+                    childNode = new Node(splitResult.get(i), true);
+                    parent.addChild(childNode);
+                }
+            }
+        }
     }
 
 //    public void fit(double[][] X, double[] Y) {
@@ -313,9 +279,7 @@ public class DecisionTreeClassifier {
             for (int j = 0; j < datasetlist.size(); j++) {
                 for (int l = 0; l < numFeatures + 1; l++) {
                     temp[j][l] = datasetlist.get(j)[l];
-                    System.out.print(" " + temp[j][l] + " ");
                 }
-                System.out.println();
             }
             datasetListresult.add(temp);
         }
