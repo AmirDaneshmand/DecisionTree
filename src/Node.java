@@ -9,6 +9,7 @@ public class Node {
     private List<Node> childrenNodes = null;
     private double infoGain;
     private double[] value;
+    private double[][] value2;
     private List<double[]> childrenList = null;
     Boolean isLeaf;
 
@@ -34,6 +35,16 @@ public class Node {
         this.featureIndex = featureIndex;
         this.threshold = threshold;
         this.infoGain = infoGain;
+    }
+
+    public Node(int featureIndex, Boolean isLeaf) {
+        this.featureIndex = featureIndex;
+        this.isLeaf = isLeaf;
+    }
+
+    public Node(double[][] value2, Boolean isLeaf) {
+        this.value2 = value2;
+        this.isLeaf = isLeaf;
     }
 
     public void setValue(double[] value) {

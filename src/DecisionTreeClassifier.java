@@ -143,7 +143,32 @@ public class DecisionTreeClassifier {
 
 
             //add each child node to its parent
-
+            Node parent = new Node(featureIndex , false);
+            Node childNode1;
+            if (splitResult.get(0) != null && checkLeaf(splitResult.get(0) == true)) {
+                childNode1 = new Node(splitResult.get(0), true);
+                parent.addChild(childNode1);
+            }else
+                getBestSplit(splitResult.get(0), numSamples , numFeatures , labels);
+            Node childNode2;
+            if (splitResult.get(1) != null && checkLeaf(splitResult.get(1) == true)) {
+                childNode2 = new Node(splitResult.get(1), true);
+                parent.addChild(childNode2);
+            }else
+                getBestSplit(splitResult.get(1), numSamples , numFeatures , labels);
+            Node childNode3;
+            if (splitResult.get(2) != null && checkLeaf(splitResult.get(2) == true)) {
+                childNode3 = new Node(splitResult.get(2), checkLeaf(splitResult.get(2)));
+                parent.addChild(childNode3);
+            }else
+                getBestSplit(splitResult.get(2), numSamples , numFeatures , labels);
+            Node childNode4;
+            if (splitResult.get(3) != null && checkLeaf(splitResult.get(3) == true)) {
+                childNode4 = new Node(splitResult.get(3), true);
+                parent.addChild(childNode4);
+            }
+            else
+                getBestSplit(splitResult.get(3), numSamples , numFeatures , labels);
 
 //            double[] dataset1;
 //            if (splitResult.get(0) != null) {
