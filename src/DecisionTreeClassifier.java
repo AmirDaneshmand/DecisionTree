@@ -87,18 +87,17 @@ public class DecisionTreeClassifier {
         return new Node((double[]) bestSplit.get("value"), (double) bestSplit.get("info_gain"), (int) bestSplit.get("threshold"));
     }
 
+    //check for leaf or decision Node
     private boolean checkLeaf(double[][] splitResult , int featureIndex){
-
-
         int end = splitResult[featureIndex].length;
         double equals = splitResult[splitResult.length-1][0];
         for (int j = 0; j < end; j++) {
+            System.out.println("splitResult[splitResult.length-1][j] = " + splitResult[splitResult.length-1][j]);
            if(splitResult[splitResult.length-1][j]!=equals){
                 return false;
            }
         }
         return true;
-
 //        double[][] chechDouble = splitResult;
 //        int end =chechDouble[featureIndex].length;
 //        double equals = chechDouble[chechDouble.length-1][0];
@@ -138,32 +137,28 @@ public class DecisionTreeClassifier {
             }
             List<double[][]> splitResult = split(temp, labels, featureIndex, possibleThresholds, numFeatures);
 
-            //check for leaf or decision Node
-
-
-
             //add each child node to its parent
             Node parent = new Node(featureIndex , false);
             Node childNode1;
-            if (splitResult.get(0) != null && checkLeaf(splitResult.get(0) == true)) {
+            if (splitResult.get(0) != null && checkLeaf(splitResult.get(0) , featureIndex)) {
                 childNode1 = new Node(splitResult.get(0), true);
                 parent.addChild(childNode1);
             }else
                 getBestSplit(splitResult.get(0), numSamples , numFeatures , labels);
             Node childNode2;
-            if (splitResult.get(1) != null && checkLeaf(splitResult.get(1) == true)) {
+            if (splitResult.get(1) != null && checkLeaf(splitResult.get(1) , featureIndex)) {
                 childNode2 = new Node(splitResult.get(1), true);
                 parent.addChild(childNode2);
             }else
                 getBestSplit(splitResult.get(1), numSamples , numFeatures , labels);
             Node childNode3;
-            if (splitResult.get(2) != null && checkLeaf(splitResult.get(2) == true)) {
-                childNode3 = new Node(splitResult.get(2), checkLeaf(splitResult.get(2)));
+            if (splitResult.get(2) != null && checkLeaf(splitResult.get(2) , featureIndex)) {
+                childNode3 = new Node(splitResult.get(2), true);
                 parent.addChild(childNode3);
             }else
                 getBestSplit(splitResult.get(2), numSamples , numFeatures , labels);
             Node childNode4;
-            if (splitResult.get(3) != null && checkLeaf(splitResult.get(3) == true)) {
+            if (splitResult.get(3) != null && checkLeaf(splitResult.get(3) , featureIndex)) {
                 childNode4 = new Node(splitResult.get(3), true);
                 parent.addChild(childNode4);
             }
