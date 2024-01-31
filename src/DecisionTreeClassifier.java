@@ -90,10 +90,12 @@ public class DecisionTreeClassifier {
     //check for leaf or decision Node
     private boolean checkLeaf(double[][] splitResult , int featureIndex){
         int end = splitResult[featureIndex].length;
-        double equals = splitResult[splitResult.length-1][0];
-        for (int j = 0; j < end; j++) {
-            System.out.println("splitResult[splitResult.length-1][j] = " + splitResult[splitResult.length-1][j]);
-           if(splitResult[splitResult.length-1][j]!=equals){
+        System.out.println("SplitResult.lenght = " + splitResult.length);
+        double equals = splitResult[0][17];
+        System.out.println("equals = " + equals);
+        for (int j = 0; j < splitResult.length; j++) {
+            System.out.println("splitResult[splitResult.length-1][j] = " + splitResult[j][17]);
+           if(splitResult[j][17]!=equals){
                 return false;
            }
         }
@@ -115,7 +117,8 @@ public class DecisionTreeClassifier {
 
         for (int featureIndex = 0; featureIndex < numFeatures; featureIndex++) {
             double[] featureValues = new double[numSamples];
-            for (int i = 0; i < numSamples; i++) {
+            System.out.println(dataset.length);
+            for (int i = 0; i < dataset.length - 1; i++) {
                 featureValues[i] = dataset[i][featureIndex];
             }
 
@@ -143,27 +146,32 @@ public class DecisionTreeClassifier {
             if (splitResult.get(0) != null && checkLeaf(splitResult.get(0) , featureIndex)) {
                 childNode1 = new Node(splitResult.get(0), true);
                 parent.addChild(childNode1);
-            }else
-                getBestSplit(splitResult.get(0), numSamples , numFeatures , labels);
+                System.out.println("gorgali");
+            }
+//            else
+//                getBestSplit(splitResult.get(0), numSamples , numFeatures , labels);
             Node childNode2;
             if (splitResult.get(1) != null && checkLeaf(splitResult.get(1) , featureIndex)) {
                 childNode2 = new Node(splitResult.get(1), true);
                 parent.addChild(childNode2);
-            }else
-                getBestSplit(splitResult.get(1), numSamples , numFeatures , labels);
-            Node childNode3;
-            if (splitResult.get(2) != null && checkLeaf(splitResult.get(2) , featureIndex)) {
-                childNode3 = new Node(splitResult.get(2), true);
-                parent.addChild(childNode3);
-            }else
-                getBestSplit(splitResult.get(2), numSamples , numFeatures , labels);
-            Node childNode4;
-            if (splitResult.get(3) != null && checkLeaf(splitResult.get(3) , featureIndex)) {
-                childNode4 = new Node(splitResult.get(3), true);
-                parent.addChild(childNode4);
+                System.out.println("gorgali2");
             }
-            else
-                getBestSplit(splitResult.get(3), numSamples , numFeatures , labels);
+//            else
+//                getBestSplit(splitResult.get(1), numSamples , numFeatures , labels);
+//            Node childNode3;
+//            if (splitResult.get(2) != null && checkLeaf(splitResult.get(2) , featureIndex)) {
+//                childNode3 = new Node(splitResult.get(2), true);
+//                parent.addChild(childNode3);
+//            }
+//            else
+//                getBestSplit(splitResult.get(2), numSamples , numFeatures , labels);
+//            Node childNode4;
+//            if (splitResult.get(3) != null && checkLeaf(splitResult.get(3) , featureIndex)) {
+//                childNode4 = new Node(splitResult.get(3), true);
+//                parent.addChild(childNode4);
+//            }
+//            else
+//                getBestSplit(splitResult.get(3), numSamples , numFeatures , labels);
 
 //            double[] dataset1;
 //            if (splitResult.get(0) != null) {
@@ -305,7 +313,9 @@ public class DecisionTreeClassifier {
             for (int j = 0; j < datasetlist.size(); j++) {
                 for (int l = 0; l < numFeatures + 1; l++) {
                     temp[j][l] = datasetlist.get(j)[l];
+                    System.out.print(" " + temp[j][l] + " ");
                 }
+                System.out.println();
             }
             datasetListresult.add(temp);
         }
