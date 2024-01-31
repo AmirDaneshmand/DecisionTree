@@ -43,9 +43,9 @@ public class Node {
         this.isLeaf = isLeaf;
     }
 
-    public Node(double[][] value2, Boolean isLeaf) {
+    public Node(double[] value, Boolean isLeaf) {
         this.childrenNodes = new ArrayList<>();
-        this.value2 = value2;
+        this.value = value;
         this.isLeaf = isLeaf;
     }
 
