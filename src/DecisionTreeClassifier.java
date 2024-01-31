@@ -115,7 +115,14 @@ public class DecisionTreeClassifier {
                 }
             }
             List<double[][]> splitResult = split(temp, labels, featureIndex, possibleThresholds, numFeatures);
-            double[] dataset1;
+
+            //check for leaf or decision Node
+
+
+            //add each child node to its parent
+
+
+//            double[] dataset1;
 //            if (splitResult.get(0) != null) {
 //                dataset1 = splitResult.get(0);
 //                Node parent = new Node(dataset1);
