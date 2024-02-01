@@ -8,7 +8,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-		// Load your dataset
+		// Load dataset
 		String[] colNames = {"HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack",
 				"PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare",
 				"NoDocbcCost", "GenHlth", "DiffWalk", "Sex", "Education", "Income"};
@@ -21,11 +21,24 @@ public class Main {
 			label_temp[i] =(int) label[i][0];
 		}
 
-		// Run ID3
+		// Run ID3 Algorithm
 		Tree tree = new Tree(0 , 0);
-		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , data , label_temp);
-		Node root = Dtree.buildTree(data, 0 , 6);
-		System.out.println("Generated decision tree:");
+		//small temporary test on detaset
+		double[][] temp = new double[15][17];
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 17; j++) {
+				temp[i][j] = data[i][j];
+//                    System.out.print(temp[i][j] + " ");
+			}
+//                System.out.println();
+		}
+		ArrayList<Integer> featureArr = new ArrayList<>();
+		for (int i = 0; i < 17; i++) {
+			featureArr.add(i , i);
+		}
+		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , temp , label_temp);
+		Node root = Dtree.buildTree(temp, 0 , 6 , featureArr);
+		System.out.println("Decision tree Generated");
 
 //		// Train-Test split
 //		double[][] X = new double[data.length][data[0].length - 1];
