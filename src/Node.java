@@ -21,27 +21,27 @@ public class Node {
         this.setValue(value);
     }
 
-    public Node(double[] threshold, double infoGain, double[] value) {
-        this.threshold = threshold;
-        this.infoGain = infoGain;
-        this.value = value;
-        this.childrenNodes = new ArrayList<>();
-        this.childrenList = new ArrayList<>();
-        this.genChildren(this.childrenNodes);
-        this.setValue(value);
-    }
+//    public Node(double[] threshold, double infoGain, double[] value) {
+//        this.threshold = threshold;
+//        this.infoGain = infoGain;
+//        this.value = value;
+//        this.childrenNodes = new ArrayList<>();
+//        this.childrenList = new ArrayList<>();
+//        this.genChildren(this.childrenNodes);
+//        this.setValue(value);
+//    }
 
-    public Node(double[] threshold, double infoGain, int featureIndex) {
-        this.featureIndex = featureIndex;
-        this.threshold = threshold;
-        this.infoGain = infoGain;
-    }
+//    public Node(double[] threshold, double infoGain, int featureIndex) {
+//        this.featureIndex = featureIndex;
+//        this.threshold = threshold;
+//        this.infoGain = infoGain;
+//    }
 
-    public Node(int featureIndex, Boolean isLeaf) {
-        this.childrenNodes = new ArrayList<>();
-        this.featureIndex = featureIndex;
-        this.isLeaf = isLeaf;
-    }
+//    public Node(int featureIndex, Boolean isLeaf) {
+//        this.childrenNodes = new ArrayList<>();
+//        this.featureIndex = featureIndex;
+//        this.isLeaf = isLeaf;
+//    }
 
     public Node(double[] value, Boolean isLeaf) {
         this.childrenNodes = new ArrayList<>();
