@@ -130,16 +130,23 @@ public class DecisionTreeClassifier {
             //****************************//number 10 here should have edited later !!!! //*****************************//
             //  here it was a small test on dataset, and later it should've change to numSamples
             double[] parentValues = new double[10];
+            boolean flag = false;
             for (int i = 0; i < 10; i++) {
                 parentValues[i] = temp[i][featureIndex];
+                if (parentValues[i] != parentValues[0])
+                    flag = true;
             }
             List<double[][]> splitResult = split(temp, labels, featureIndex, possibleThresholds, numFeatures);
 
             //add each child node to its parent
             Node parent = new Node(parentValues, false);
             buildChildren(splitResult, parent, featureIndex, numSamples);
-            double currInfoGain = tree.informationGain(parent);
+            double currInfoGain = maxInfoGain;
+            System.out.println("flag = " + flag);
+            if (flag)
+                 currInfoGain = tree.informationGain(parent);
             System.out.println("currInfoGain = " + currInfoGain);
+            System.out.println("featureIndex = " + featureIndex);
             if (currInfoGain > maxInfoGain) {
                 bestSplit.put("feature_index", featureIndex);
                 bestSplit.put("threshold", possibleThresholds);
@@ -162,12 +169,16 @@ public class DecisionTreeClassifier {
                     for (int j = 0; j < splitResult.get(i).length; j++) {
                         childValues[j] = splitResult.get(i)[j][featureIndex];
                     }
-                    if (checkLeaf(splitResult.get(i), featureIndex))
+                    if (checkLeaf(splitResult.get(i), featureIndex)) {
                         //childNode is a leaf Node
                         childNode = new Node(childValues, true);
-                    else
+                        System.out.println("Gorgali leaf");
+                    }
+                    else {
                         //childNode is a Decision Node
                         childNode = new Node(childValues, false);
+                        System.out.println("Gorgali Decision Node");
+                    }
                     parent.addChild(childNode);
                 }
             }

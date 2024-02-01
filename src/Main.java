@@ -56,16 +56,16 @@ public class Main {
 //		System.out.println("Accuracy: " + accuracy);
 
         // Example usage with a list of children Nodes
-        Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
-        Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
-        Node Parent = new Node(new double[]{0} , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
-        Parent.addChild(child1);
-        Parent.addChild(child2);
-		Tree Test_tree = new Tree(Parent);
-        Test_tree.informationGain(Parent);
-        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
-        Test_tree.informationGain(child1);
-        System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
+//        Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
+//        Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
+//        Node Parent = new Node(new double[]{0} , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
+//        Parent.addChild(child1);
+//        Parent.addChild(child2);
+//		Tree Test_tree = new Tree(Parent);
+//        Test_tree.informationGain(Parent);
+//        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
+//        Test_tree.informationGain(child1);
+//        System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
 	}
 
 	//reads csv file line by line and passes an array of its data's
