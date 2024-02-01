@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DecisionTreeClassifier {
 
@@ -36,38 +39,39 @@ public class DecisionTreeClassifier {
 //    }
 
     //building tree based on calculating iGain and Entropy for each split
-    public Node buildTree(double[][] dataset, int currDepth, int maxDepth) {
+    public Node buildTree(double[][] dataset, int currDepth, int maxDepth, ArrayList featureIndexArray) {
         // Split the dataset
         Map<String, Object> bestSplit = getBestSplit(dataset, dataset.length, dataset[0].length, labels);
         // Extract information from the best split
         int featureIndex = (int) bestSplit.get("feature_index");
+        featureIndexArray.remove(featureIndex);
         double infoGain = (double) bestSplit.get("info_gain");
         Node parent = (Node) bestSplit.get("parent_node");
         double[][] dataset1 = new double[dataset.length][dataset[0].length];
         if (bestSplit.size() > 0)
-            dataset1= (double[][]) bestSplit.get("child_dataset1");
-        double[][] dataset2;
+            dataset1 = (double[][]) bestSplit.get("child_dataset1");
+        double[][] dataset2 = new double[dataset.length][dataset[0].length];
         if (bestSplit.size() > 1)
             dataset2 = (double[][]) bestSplit.get("child_dataset2");
-        double[][] dataset3;
+        double[][] dataset3 = new double[dataset.length][dataset[0].length];
         if (bestSplit.size() > 2)
-            dataset3= (double[][]) bestSplit.get("child_dataset3");
-        double[][] dataset4;
+            dataset3 = (double[][]) bestSplit.get("child_dataset3");
+        double[][] dataset4 = new double[dataset.length][dataset[0].length];
         if (bestSplit.size() > 3)
-            dataset4= (double[][]) bestSplit.get("child_dataset4");
-        double[][] dataset5;
+            dataset4 = (double[][]) bestSplit.get("child_dataset4");
+        double[][] dataset5 = new double[dataset.length][dataset[0].length];
         if (bestSplit.size() > 4)
-            dataset5= (double[][]) bestSplit.get("child_dataset5");
+            dataset5 = (double[][]) bestSplit.get("child_dataset5");
 
         // Check conditions for building subtrees
         if (infoGain > 0 && currDepth <= maxDepth) {
             for (int i = 0; i < parent.getChildrenNodes().size(); i++) {
                 Node subTree;
                 if (!parent.getChilrenByIndex(i).getLeaf())
-                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d" , i + 1)), currDepth + 1 , maxDepth);
+                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1)), currDepth + 1, maxDepth, featureIndexArray);
             }
             // Return a non-leaf node
-            return new Node(parent.getValue() , false);
+            return new Node(parent.getValue(), false);
         }
         // Return a Leaf Node
         return new Node((double[]) bestSplit.get("value"), true);
@@ -117,26 +121,14 @@ public class DecisionTreeClassifier {
                 featureValues[i] = dataset[i][featureIndex];
             }
 
-            double[] uniqueFeatureValues = new double[17];
+//            double[] uniqueFeatureValues = new double[17];
             // Adding unique elements to uniqueFeatureValues
-            for (int i = 0; i < featureValues.length; i++) {
-                uniqueFeatureValues = Arrays.stream(featureValues).distinct().toArray();
-            }
-            // Sort the uniqueFeatureValues array
-            Arrays.sort(uniqueFeatureValues);
-            double[] possibleThresholds = calculateThValues(uniqueFeatureValues);
-
-            //small temporary test on detaset
-//            double[][] temp = new double[10][17];
-//            for (int i = 0; i < 10; i++) {
-//                for (int j = 0; j < 17; j++) {
-//                    temp[i][j] = dataset[i][j];
-////                    System.out.print(temp[i][j] + " ");
-//                }
-////                System.out.println();
+//            for (int i = 0; i < featureValues.length; i++) {
+//                uniqueFeatureValues = Arrays.stream(featureValues).distinct().toArray();
 //            }
-            //****************************//number 10 here should have edited later !!!! //*****************************//
-            //  here it was a small test on dataset, and later it should've change to numSamples
+            // Sort the uniqueFeatureValues array
+//            Arrays.sort(uniqueFeatureValues);
+//            double[] possibleThresholds = calculateThValues(uniqueFeatureValues);
             double[] parentValues = new double[numSamples];
 //            boolean flag = false;
             for (int i = 0; i < numSamples; i++) {
@@ -190,8 +182,7 @@ public class DecisionTreeClassifier {
                         //childNode is a leaf Node
                         childNode = new Node(childValues, true);
                         System.out.println("Gorgali leaf");
-                    }
-                    else {
+                    } else {
                         //childNode is a Decision Node
                         childNode = new Node(childValues, false);
                         System.out.println("Gorgali Decision Node");
