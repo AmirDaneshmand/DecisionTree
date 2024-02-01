@@ -61,10 +61,10 @@ public class DecisionTreeClassifier {
 
         // Check conditions for building subtrees
         if (infoGain > 0 && currDepth <= maxDepth) {
-            for (Node child: parent.getChildrenNodes()) {
+            for (int i = 0; i < parent.getChildrenNodes().size(); i++) {
                 Node subTree;
-                if (!child.getLeaf())
-                    subTree = buildTree(dataset1 , currDepth + 1 , maxDepth);
+                if (!parent.getChilrenByIndex(i).getLeaf())
+                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d" , i + 1)), currDepth + 1 , maxDepth);
             }
             // Return a non-leaf node
             return new Node(parent.getValue() , false);
@@ -127,32 +127,32 @@ public class DecisionTreeClassifier {
             double[] possibleThresholds = calculateThValues(uniqueFeatureValues);
 
             //small temporary test on detaset
-            double[][] temp = new double[10][17];
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 17; j++) {
-                    temp[i][j] = dataset[i][j];
-//                    System.out.print(temp[i][j] + " ");
-                }
-//                System.out.println();
-            }
+//            double[][] temp = new double[10][17];
+//            for (int i = 0; i < 10; i++) {
+//                for (int j = 0; j < 17; j++) {
+//                    temp[i][j] = dataset[i][j];
+////                    System.out.print(temp[i][j] + " ");
+//                }
+////                System.out.println();
+//            }
             //****************************//number 10 here should have edited later !!!! //*****************************//
             //  here it was a small test on dataset, and later it should've change to numSamples
-            double[] parentValues = new double[10];
-            boolean flag = false;
-            for (int i = 0; i < 10; i++) {
-                parentValues[i] = temp[i][featureIndex];
-                if (parentValues[i] != parentValues[0])
-                    flag = true;
+            double[] parentValues = new double[numSamples];
+//            boolean flag = false;
+            for (int i = 0; i < numSamples; i++) {
+                parentValues[i] = dataset[i][featureIndex];
+//                if (parentValues[i] != parentValues[0])
+//                    flag = true;
             }
-            List<double[][]> splitResult = split(temp, labels, featureIndex, featureValues, numFeatures);
+            List<double[][]> splitResult = split(dataset, labels, featureIndex, featureValues, numFeatures);
 
             //add each child node to its parent
             Node parent = new Node(parentValues, false);
             buildChildren(splitResult, parent, featureIndex, numSamples);
             double currInfoGain = maxInfoGain;
-            System.out.println("flag = " + flag);
-            if (flag)
-                 currInfoGain = tree.informationGain(parent);
+//            System.out.println("flag = " + flag);
+//            if (flag)
+            currInfoGain = tree.informationGain(parent);
             System.out.println("currInfoGain = " + currInfoGain);
             System.out.println("featureIndex = " + featureIndex);
             if (currInfoGain > maxInfoGain) {
