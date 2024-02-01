@@ -36,16 +36,22 @@ public class DecisionTreeClassifier {
 //    }
 
     //building tree based on calculating iGain and Entropy for each split
-    public Node buildTree(double[][] dataset, int currDepth, int maxDepth, ArrayList featureIndexArray) {
+    public Node buildTree(double[][] dataset, int currDepth, int maxDepth, ArrayList<Integer> featureIndexArray) {
         // Split the dataset
-        System.out.println("dataset[0].lenght = " + dataset[0].length);
-        Map<String, Object> bestSplit = getBestSplit(dataset, dataset.length, dataset[0].length, labels);
+        Map<String, Object> bestSplit = getBestSplit(dataset, dataset.length, dataset[0].length, labels , featureIndexArray);
         // Extract information from the best split
         int featureIndex = (int) bestSplit.get("feature_index");
-        ArrayList<Double> temporary = new ArrayList<Double>();
-        temporary.addAll((Collection) featureIndexArray.remove(featureIndex));
         double infoGain = (double) bestSplit.get("info_gain");
         Node parent = (Node) bestSplit.get("parent_node");
+        // Remove the bestSplit's index from featureIndexArray
+        Iterator<Integer> iterator = featureIndexArray.iterator();
+        while (iterator.hasNext()) {
+            int feature = iterator.next();
+            if (feature == featureIndex) {
+                iterator.remove();
+                System.out.println("Removed bestSplit's index: " + featureIndex);
+            }
+        }
 //        double[][] dataset1 = new double[dataset.length][dataset[0].length];
 //        if (bestSplit.size() > 0)
 //            dataset1 = (double[][]) bestSplit.get("child_dataset1");
@@ -61,7 +67,6 @@ public class DecisionTreeClassifier {
 //        double[][] dataset5 = new double[dataset.length][dataset[0].length];
 //        if (bestSplit.size() > 4)
 //            dataset5 = (double[][]) bestSplit.get("child_dataset5");
-
         System.out.println("currDepth = " + currDepth);
         System.out.println("currinfoGain = " + infoGain);
         // Check conditions for building subtrees
@@ -69,8 +74,7 @@ public class DecisionTreeClassifier {
             for (int i = 0; i < parent.getChildrenNodes().size(); i++) {
                 Node subTree;
                 if (!parent.getChilrenByIndex(i).getLeaf()) {
-                    System.out.println("Gorgallllllllllllllli");
-                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1)), currDepth + 1, maxDepth, temporary);
+                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1)), currDepth + 1, maxDepth, featureIndexArray);
                 }
             }
             // Return a non-leaf node
@@ -114,11 +118,11 @@ public class DecisionTreeClassifier {
     }
 
     //calculates Possible threshold and find the best split for a given dataset
-    public Map<String, Object> getBestSplit(double[][] dataset, int numSamples, int numFeatures, int[] labels) {
+    public Map<String, Object> getBestSplit(double[][] dataset, int numSamples, int numFeatures, int[] labels , ArrayList<Integer> featureArr) {
         Map<String, Object> bestSplit = new HashMap<>();
         double maxInfoGain = Double.NEGATIVE_INFINITY;
 
-        for (int featureIndex = 0; featureIndex < numFeatures - 1; featureIndex++) {
+        for (int featureIndex : featureArr) {
             double[] featureValues = new double[numSamples];
             for (int i = 0; i < dataset.length - 1; i++) {
                 featureValues[i] = dataset[i][featureIndex];
