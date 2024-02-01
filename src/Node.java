@@ -6,7 +6,7 @@ public class Node {
 
     private int featureIndex;
     private double[] threshold;
-    private List<Node> childrenNodes = null;
+    private List<Node> childrenNodes;
     private double infoGain;
     private double[] value;
     private double[][] value2;
@@ -38,12 +38,14 @@ public class Node {
     }
 
     public Node(int featureIndex, Boolean isLeaf) {
+        this.childrenNodes = new ArrayList<>();
         this.featureIndex = featureIndex;
         this.isLeaf = isLeaf;
     }
 
-    public Node(double[][] value2, Boolean isLeaf) {
-        this.value2 = value2;
+    public Node(double[] value, Boolean isLeaf) {
+        this.childrenNodes = new ArrayList<>();
+        this.value = value;
         this.isLeaf = isLeaf;
     }
 
