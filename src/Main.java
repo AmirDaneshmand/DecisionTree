@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Main {
 
+	public static void makeTree(Tree tree,double[][] dataset, int currDepth, int maxDepth){
+
+	}
     public static void main(String[] args) {
 		// Load your dataset
 		String[] colNames = {"HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack",
@@ -26,6 +29,8 @@ public class Main {
 		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , data , label_temp);
 		Node root = Dtree.buildTree(data, 0 , 6);
 		System.out.println("Generated decision tree:");
+		data = Dtree.replaceDataSet;
+
 
 //		// Train-Test split
 //		double[][] X = new double[data.length][data[0].length - 1];
