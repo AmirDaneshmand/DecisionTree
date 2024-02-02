@@ -12,6 +12,7 @@ public class DecisionTreeClassifier {
         this.labels = labels;
     }
 
+    //Predicts the label of given dataset
     public double predict(double dataset[][], Node node, int featureValue, ArrayList<Integer> featureArr) {
         //if node is a Leaf Node
         if (node.getLeaf())
@@ -19,14 +20,8 @@ public class DecisionTreeClassifier {
         //if node is Decision Node
         else {
             // Remove the featureValue from featureArr
+            deleteFeature(featureArr, featureValue);
             Iterator<Integer> iterator = featureArr.iterator();
-            while (iterator.hasNext()) {
-                int feature = iterator.next();
-                if (feature == featureValue) {
-                    iterator.remove();
-                    System.out.println("Removed featureValue: " + featureValue);
-                }
-            }
             for (Node child : node.getChildrenNodes()) {
                 makePrediction(dataset, new Tree(node), featureArr);
             }
@@ -34,6 +29,7 @@ public class DecisionTreeClassifier {
         }
     }
 
+    //Takes dataset and tree and iterates over parent's child to until reach a leaf
     public double[] makePrediction(double[][] dataset, Tree tree, ArrayList<Integer> featureArr) {
         Node root = tree.getRoot();
         double predictedLabel;
@@ -51,26 +47,9 @@ public class DecisionTreeClassifier {
             }
         }
         return predictedArray;
-//        for (double[] row: dataset) {
-//            Iterator<Integer> iterator = featureArrr.iterator();
-//            while (iterator.hasNext()) {
-//                feature = iterator.next();
-//                if (root.getFeatureIndex() == feature) {
-//                    predictedLabel = predict(row , feature);
-//                    System.out.println("predictedLabel = " + predictedLabel);
-//                    break;
-//                }
-//            }
-//
-//        }
-//        double featureVal = x[tree.getFeatureIndex()];
-//        if (featureVal <= tree.getThreshold()) {
-//            return makePrediction(x, tree.getLeft());
-//        } else {
-//            return makePrediction(x, tree.getRight());
-//        }
     }
 
+    //checks to see if a given Value is on the child 's values or not
     private boolean containValue(Node child, int featureValue) {
         for (double childValue : child.getValue()) {
             if (childValue == featureValue)
@@ -79,7 +58,7 @@ public class DecisionTreeClassifier {
         return false;
     }
 
-    //building tree based on calculating iGain and Entropy for each split
+    //Building tree based on calculating iGain and Entropy for each split
     public Node buildTree(double[][] dataset, int currDepth, int maxDepth, ArrayList<Integer> featureIndexArray) {
         // Split the dataset
         Map<String, Object> bestSplit = getBestSplit(dataset, dataset.length, dataset[0].length, labels, featureIndexArray);
@@ -88,14 +67,7 @@ public class DecisionTreeClassifier {
         double infoGain = (double) bestSplit.get("info_gain");
         Node parent = (Node) bestSplit.get("parent_node");
         // Remove the bestSplit's index from featureIndexArray
-        Iterator<Integer> iterator = featureIndexArray.iterator();
-        while (iterator.hasNext()) {
-            int feature = iterator.next();
-            if (feature == featureIndex) {
-                iterator.remove();
-                System.out.println("Removed bestSplit's index: " + featureIndex);
-            }
-        }
+        deleteFeature(featureIndexArray , featureIndex);
 //        double[][] dataset1 = new double[dataset.length][dataset[0].length];
 //        if (bestSplit.size() > 0)
 //            dataset1 = (double[][]) bestSplit.get("child_dataset1");
@@ -244,6 +216,17 @@ public class DecisionTreeClassifier {
         }
     }
 
+    //Removes an element from an ArrayList and return it at the end
+    private void deleteFeature(ArrayList<Integer> featureArray , int featuretoRemove){
+        Iterator<Integer> iterator = featureArray.iterator();
+        while (iterator.hasNext()) {
+            int feature = iterator.next();
+            if (feature == featuretoRemove) {
+                iterator.remove();
+                System.out.println("Removed bestSplit's index: " + featuretoRemove);
+            }
+        }
+    }
 //    public void fit(double[][] X, double[] Y) {
 //        double[][] dataset = new double[X.length][X[0].length + 1];
 //        for (int i = 0; i < X.length; i++) {
@@ -252,27 +235,6 @@ public class DecisionTreeClassifier {
 //        }
 //
 //        root = buildTree(dataset, 0);
-//    }
-
-//    public double[] predict(double[][] X) {
-//        double[] predictions = new double[X.length];
-//        for (int i = 0; i < X.length; i++) {
-//            predictions[i] = makePrediction(X[i], root);
-//        }
-//        return predictions;
-//    }
-//
-//    public double makePrediction(double[] x, Node tree) {
-//        if (tree.getValue() != null) {
-//            return tree.getValue();
-//        }
-//
-//        double featureVal = x[tree.getFeatureIndex()];
-//        if (featureVal <= tree.getThreshold()) {
-//            return makePrediction(x, tree.getLeft());
-//        } else {
-//            return makePrediction(x, tree.getRight());
-//        }
 //    }
 
     //calculate possible threshold
@@ -386,6 +348,7 @@ public class DecisionTreeClassifier {
         return purity;
     }
 
+    //Not Implemented Yet.
 //    public void printTree(Node tree, String indent) {
 //        if (tree.getValue() != null) {
 //            System.out.println(tree.getValue());

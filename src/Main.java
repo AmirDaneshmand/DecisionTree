@@ -69,12 +69,19 @@ public class Main {
 		for (int i = 0; i < predictedLabels.length; i++) {
 			label_test_temporary[i] = label_test_temp[i];
 		}
+		// Assuming accuracy_score
 		double accuracy = Dtree.accuracyScore(label_test_temporary , predictedLabels);
 
 		if (accuracy < 0.75){
 			System.out.println("Your Fucking accuracy is = " + accuracy);
-			System.out.println("Holy \n\t Bloody \n\t\t Fucking \n\t\t\t Damn \n\t\t\t\t shit \n\t\t\t\t\t body ! \n " +
-					"This shit have less than 75% accuracy !!!!! ");
+			System.out.println("""
+					Holy\s
+					\t Bloody\s
+					\t\t Fucking\s
+					\t\t\t Damn\s
+					\t\t\t\t shit\s
+					\t\t\t\t\t body !\s
+					 This shit have less than 75% accuracy !!!!!\s""");
 		}else {
 			System.out.println(" ***  Congratulations *o*  ***");
 			double mydouble = accuracy / 100.0;
@@ -102,10 +109,6 @@ public class Main {
 //
 //		double[] Y_pred = classifier.predict(X_test);
 //		System.out.println(Arrays.toString(Y_pred));
-//
-//		// Assuming accuracy_score is similar to Python's sklearn.metrics.accuracy_score
-//		double accuracy = accuracyScore(Y_test, Y_pred);
-//		System.out.println("Accuracy: " + accuracy);
 
         // Example usage with a list of children Nodes
 //        Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
@@ -146,13 +149,4 @@ public class Main {
 
 		return data;
 	}
-
-//	public static void trainTestSplit(
-//			double[][] X, double[] Y, double testSize, int randomState,
-//			double[][] X_train, double[][] X_test, double[] Y_train, double[] Y_test
-//	) {
-//		// Implement train-test split logic similar to Python's sklearn.model_selection.train_test_split
-//		// You can use a random seed for reproducibility (similar to random_state in Python)
-//		// The implementation depends on the logic you want to follow for the split.
-//	}
 }
