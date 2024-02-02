@@ -17,10 +17,19 @@ public class DecisionTreeClassifier {
 
     public double predict(double[] feature ,int depth){
         Node tempNode = tree.getRoot();
-        int fetureIndex = tempNode.getFeatureIndex();
-        double checkFeature;
+        int featureIndex = tempNode.getFeatureIndex();
+        int checkFeature;
         for (int i = 0; i < depth; i++) {
-            checkFeature = feature[fetureIndex];
+            checkFeature = (int) feature[featureIndex];
+           if(checkFeature<tempNode.getChildrenNodes().size()-1){
+               tempNode = tempNode.getChilrenByIndex(tempNode.getChildrenNodes().size()-1);
+
+           }
+           else{
+
+               tempNode = tempNode.getChilrenByIndex(checkFeature);
+           }
+           //           tempNode = tempNode.getChilrenByIndex(checkFeature);
 
         }
 
