@@ -15,9 +15,16 @@ public class DecisionTreeClassifier {
     }
 
 
-    public double[] predict(double[] feature ,int depth){
+    public double predict(double[] feature ,int depth){
+        Node tempNode = tree.getRoot();
+        int fetureIndex = tempNode.getFeatureIndex();
+        double checkFeature;
+        for (int i = 0; i < depth; i++) {
+            checkFeature = feature[fetureIndex];
 
-        return null;
+        }
+
+        return 0.0;
     }
 
 //    public double[] predict(X) {

@@ -5,6 +5,9 @@ import java.util.List;
 public class Node {
 
     private int featureIndex;
+    public int getFeatureIndex(){
+        return featureIndex;
+    }
     private double[] threshold;
     private List<Node> childrenNodes;
     private double infoGain;
