@@ -3,7 +3,6 @@ import java.util.*;
 public class DecisionTreeClassifier {
 
     private Tree tree;
-    private int maxDepth;
     private double[][] data;
     private int[] labels;
 
@@ -337,33 +336,7 @@ public class DecisionTreeClassifier {
     //    public float[] predictAll(float[][] data, int depth) {
 //        return new float[0];
 //    }
-    //Not Implemented Yet .
-//    public double calculateLeafValue(double[][] dataset) {
-//        double equals = dataset[0][17];
-//        double purity;
-//        for (int j = 0; j < dataset.length; j++) {
-//            if (dataset[j][17] == equals) {
-//
-//            }
-//        }
-//
-//        Map<Double, Integer> counts = new HashMap<>();
-//        for (double value : Y) {
-//            counts.put(value, counts.getOrDefault(value, 0) + 1);
-//        }
-//
-//        double maxCount = Double.NEGATIVE_INFINITY;
-//        double leafValue = 0;
-//
-//        for (Map.Entry<Double, Integer> entry : counts.entrySet()) {
-//            if (entry.getValue() > maxCount) {
-//                maxCount = entry.getValue();
-//                leafValue = entry.getKey();
-//            }
-//        }
-//
-//        return new double[]{leafValue};
-//    }
+    //find the element with the maximum occurrences and calculate the purity
     public double calculateLeafValue(double[][] dataset) {
         int lastIndex = dataset[0].length - 1; // Assuming the last column is at index 17
 
