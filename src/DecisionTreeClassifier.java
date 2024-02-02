@@ -14,8 +14,14 @@ public class DecisionTreeClassifier {
         this.labels = labels;
     }
 
-//    public double[] predict(double[][] X) {
-//        double[] predictions = new double[X.length];
+
+    public double[] predict(double[] feature ,int depth){
+
+        return null;
+    }
+
+//    public double[] predict(X) {
+//        double[] predictions = newdouble[][]  double[X.length];
 //        for (int i = 0; i < X.length; i++) {
 //            predictions[i] = makePrediction(X[i], tree.root);
 //        }
@@ -35,9 +41,11 @@ public class DecisionTreeClassifier {
 //        }
 //    }
 
+    private boolean firstBuild = true;
     //building tree based on calculating iGain and Entropy for each split
     public Node buildTree(double[][] dataset, int currDepth, int maxDepth, ArrayList<Integer> featureIndexArray) {
         // Split the dataset
+
         Map<String, Object> bestSplit = getBestSplit(dataset, dataset.length, dataset[0].length, labels, featureIndexArray);
         // Extract information from the best split
         int featureIndex = 20;
@@ -45,6 +53,10 @@ public class DecisionTreeClassifier {
             featureIndex = (int) bestSplit.get("feature_index");
         double infoGain = (double) bestSplit.get("info_gain");
         Node parent = (Node) bestSplit.get("parent_node");
+        if(firstBuild){
+            tree.setRoot(parent);
+            firstBuild = false;
+        }
         // Remove the bestSplit's index from featureIndexArray
         Iterator<Integer> iterator = featureIndexArray.iterator();
         while (iterator.hasNext()) {
