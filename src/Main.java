@@ -2,91 +2,90 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-		// Load dataset
-		String[] colNames = {"HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack",
-				"PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare",
-				"NoDocbcCost", "GenHlth", "DiffWalk", "Sex", "Education", "Income"};
+        // Load dataset
+        String[] colNames = {"HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack",
+                "PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare",
+                "NoDocbcCost", "GenHlth", "DiffWalk", "Sex", "Education", "Income"};
 
-		double[][] data = readCSV("Data/feature_train.csv", colNames);
-		double[][] label = readCSV("Data/label_train.csv" , colNames);
-		double[][] data_test = readCSV("Data/feature_test.csv", colNames);
-		double[][] label_test = readCSV("Data/label_test.csv" , colNames);
+        double[][] data = readCSV("Data/feature_train.csv", colNames);
+        double[][] label = readCSV("Data/label_train.csv", colNames);
+        double[][] data_test = readCSV("Data/feature_test.csv", colNames);
+        double[][] label_test = readCSV("Data/label_test.csv", colNames);
 
-		int [] label_temp = new int[label.length];
-		int [] label_test_temp = new int[label_test.length];
-		for (int i = 0; i < label.length; i++) {
-			label_temp[i] =(int) label[i][0];
-		}
-		for (int i = 0; i < label_test.length; i++) {
-			label_test_temp[i] =(int) label_test[i][0];
-		}
+        int[] label_temp = new int[label.length];
+        int[] label_test_temp = new int[label_test.length];
+        for (int i = 0; i < label.length; i++) {
+            label_temp[i] = (int) label[i][0];
+        }
+        for (int i = 0; i < label_test.length; i++) {
+            label_test_temp[i] = (int) label_test[i][0];
+        }
 
-		// Run ID3 Algorithm
-		Tree tree = new Tree(0);
-		// Small temporary test on dataset
-		double[][] temp = new double[30][18];
-		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < 17; j++) {
-				temp[i][j] = data[i][j];
+        // Run ID3 Algorithm
+        Tree tree = new Tree(0);
+        // Small temporary test on dataset
+        double[][] temp = new double[30][18];
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 17; j++) {
+                temp[i][j] = data[i][j];
 //                    System.out.print(temp[i][j] + " ");
-			}
+            }
 //                System.out.println();
-		}
-		System.out.println("Dataset test = ");
-		double[][] temp_test = new double[30][18];
-		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < 17; j++) {
-				temp_test[i][j] = data_test[i][j];
-                    System.out.print(temp_test[i][j] + " ");
-			}
-                System.out.println();
-		}
-		ArrayList<Integer> featureArr = new ArrayList<>();
-		for (int i = 0; i < 17; i++) {
-			featureArr.add(i , i);
-		}
-		for (int i = 0; i < temp.length; i++) {
-			temp[i][temp[0].length - 1] = label_temp[i];
-		}
-		// Train-Test split
-		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , temp , label_temp);
-		Node root = Dtree.buildTree(temp, 0 , 6 , featureArr);
-		System.out.println("Decision tree Built Successfully  * o *");
+        }
+        System.out.println("Dataset test = ");
+        double[][] temp_test = new double[30][18];
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 17; j++) {
+                temp_test[i][j] = data_test[i][j];
+                System.out.print(temp_test[i][j] + " ");
+            }
+            System.out.println();
+        }
+        ArrayList<Integer> featureArr = new ArrayList<>();
+        for (int i = 0; i < 17; i++) {
+            featureArr.add(i, i);
+        }
+        for (int i = 0; i < temp.length; i++) {
+            temp[i][temp[0].length - 1] = label_temp[i];
+        }
+        // Train-Test split
+        DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, temp, label_temp);
+        Node root = Dtree.buildTree(temp, 0, 6, featureArr);
+        System.out.println("Decision tree Built Successfully  * o *");
 
-		// Test the model
-		System.out.print("predicted Labels : ");
-		double[] predictedLabels = Dtree.makePrediction(temp_test , new Tree(root) , featureArr);
-		for (int i = 0; i < predictedLabels.length; i++) {
-			System.out.print(predictedLabels[i] + " ");
-		}
-		int []label_test_temporary = new int[predictedLabels.length];
-		for (int i = 0; i < predictedLabels.length; i++) {
-			label_test_temporary[i] = label_test_temp[i];
-		}
-		// Assuming accuracy_score
-		double accuracy = Dtree.accuracyScore(label_test_temporary , predictedLabels);
+        // Test the model
+        System.out.print("predicted Labels : ");
+        double[] predictedLabels = Dtree.makePrediction(temp_test, new Tree(root), featureArr);
+        for (int i = 0; i < predictedLabels.length; i++) {
+            System.out.print(predictedLabels[i] + " ");
+        }
+        int[] label_test_temporary = new int[predictedLabels.length];
+        for (int i = 0; i < predictedLabels.length; i++) {
+            label_test_temporary[i] = label_test_temp[i];
+        }
+        // Assuming accuracy_score
+        double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
 
-		if (accuracy < 0.75){
-			System.out.println("Your Fucking accuracy is = " + accuracy);
-			System.out.println("""
-					Holy\s
-					\t Bloody\s
-					\t\t Fucking\s
-					\t\t\t Damn\s
-					\t\t\t\t shit\s
-					\t\t\t\t\t body !\s
-					 This shit have less than 75% accuracy !!!!!\s""");
-		}else {
-			System.out.println(" ***  Congratulations *o*  ***");
-			double mydouble = accuracy / 100.0;
-			System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
-		}
+        if (accuracy < 0.75) {
+            System.out.println("Your Fucking accuracy is = " + accuracy);
+            System.out.println("""
+                    Holy\s
+                    \t Bloody\s
+                    \t\t Fucking\s
+                    \t\t\t Damn\s
+                    \t\t\t\t shit\s
+                    \t\t\t\t\t body !\s
+                     This shit have less than 75% accuracy !!!!!\s""");
+        } else {
+            System.out.println(" ***  Congratulations *o*  ***");
+            double mydouble = accuracy / 100.0;
+            System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
+        }
 
 //		double[][] X = new double[data.length][data[0].length - 1];
 //		double[] Y = new double[data.length];
@@ -121,32 +120,32 @@ public class Main {
 //        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
 //        Test_tree.informationGain(child1);
 //        System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
-	}
+    }
 
-	//reads csv file line by line and passes an array of its data's
-	public static double[][] readCSV(String filePath, String[] colNames) {
-		List<double[]> dataList = new ArrayList<>();
+    //reads csv file line by line and passes an array of its data's
+    public static double[][] readCSV(String filePath, String[] colNames) {
+        List<double[]> dataList = new ArrayList<>();
 
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-			String line;
-			br.readLine(); // skip header
-			while ((line = br.readLine()) != null) {
-				String[] values = line.split(",");
-				double[] row = new double[values.length];
-				for (int i = 0; i < values.length; i++) {
-					row[i] = Double.parseDouble(values[i]);
-				}
-				dataList.add(row);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            br.readLine(); // skip header
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                double[] row = new double[values.length];
+                for (int i = 0; i < values.length; i++) {
+                    row[i] = Double.parseDouble(values[i]);
+                }
+                dataList.add(row);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		double[][] data = new double[dataList.size()][];
-		for (int i = 0; i < dataList.size(); i++) {
-			data[i] = dataList.get(i);
-		}
+        double[][] data = new double[dataList.size()][];
+        for (int i = 0; i < dataList.size(); i++) {
+            data[i] = dataList.get(i);
+        }
 
-		return data;
-	}
+        return data;
+    }
 }

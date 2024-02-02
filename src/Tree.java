@@ -5,10 +5,12 @@ public class Tree {
     int featureIndex;
     int threshold;
     Node root;
+    //Constructor
     public Tree(int featureIndex) {
         this.featureIndex = featureIndex;
     }
 
+    //Constructor
     public Tree(Node root) {
         this.root = root;
     }

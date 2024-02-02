@@ -6,6 +6,7 @@ public class DecisionTreeClassifier {
     private double[][] data;
     private int[] labels;
 
+    //Constructor
     public DecisionTreeClassifier(Tree tree, double[][] data, int[] labels) {
         this.tree = tree;
         this.data = data;
