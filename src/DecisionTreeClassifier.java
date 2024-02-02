@@ -412,14 +412,15 @@ public class DecisionTreeClassifier {
 //        return new float[0];
 //    }
 
-    // Not Implemented Yet
     // compare correctLabels and predictedLabels and calculate the accuracy of the algorithm
-    public double accuracyScore(double[] correctLabels, double[] predictedLabels) {
+    public double accuracyScore(int[] correctLabels, double[] predictedLabels) {
         int correctPredicted = 0;
         for (int i = 0; i < correctLabels.length; i++) {
             if (correctLabels[i] == predictedLabels[i])
                 correctPredicted++;
         }
-        return (double) correctPredicted / correctLabels.length * 100.0;
+        System.out.println("correct predicted = " + correctPredicted);
+        System.out.println("correctLabels.length = " + correctLabels.length);
+        return (double) correctPredicted / correctLabels.length;
     }
 }

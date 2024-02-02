@@ -38,7 +38,7 @@ public class Main {
 			}
 //                System.out.println();
 		}
-		System.out.println("feature tests = ");
+		System.out.println("Dataset test = ");
 		double[][] temp_test = new double[30][18];
 		for (int i = 0; i < 30; i++) {
 			for (int j = 0; j < 17; j++) {
@@ -65,7 +65,21 @@ public class Main {
 		for (int i = 0; i < predictedLabels.length; i++) {
 			System.out.print(predictedLabels[i] + " ");
 		}
+		int []label_test_temporary = new int[predictedLabels.length];
+		for (int i = 0; i < predictedLabels.length; i++) {
+			label_test_temporary[i] = label_test_temp[i];
+		}
+		double accuracy = Dtree.accuracyScore(label_test_temporary , predictedLabels);
 
+		if (accuracy < 0.75){
+			System.out.println("Your Fucking accuracy is = " + accuracy);
+			System.out.println("Holy \n\t Bloody \n\t\t Fucking \n\t\t\t Damn \n\t\t\t\t shit \n\t\t\t\t\t body ! \n " +
+					"This shit have less than 75% accuracy !!!!! ");
+		}else {
+			System.out.println(" ***  Congratulations *o*  ***");
+			double mydouble = accuracy / 100.0;
+			System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
+		}
 
 //		double[][] X = new double[data.length][data[0].length - 1];
 //		double[] Y = new double[data.length];
