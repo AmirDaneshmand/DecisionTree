@@ -24,8 +24,8 @@ public class Main {
 		// Run ID3 Algorithm
 		Tree tree = new Tree(0 , 0);
 		//small temporary test on detaset
-		double[][] temp = new double[15][18];
-		for (int i = 0; i < 15; i++) {
+		double[][] temp = new double[30][18];
+		for (int i = 0; i < 30; i++) {
 			for (int j = 0; j < 17; j++) {
 				temp[i][j] = data[i][j];
 //                    System.out.print(temp[i][j] + " ");
@@ -41,7 +41,7 @@ public class Main {
 		}
 		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , temp , label_temp);
 		Node root = Dtree.buildTree(temp, 0 , 6 , featureArr);
-		System.out.println("Decision tree Generated  * o *");
+		System.out.println("Decision tree Built Successfully  * o *");
 
 //		// Train-Test split
 //		double[][] X = new double[data.length][data[0].length - 1];
