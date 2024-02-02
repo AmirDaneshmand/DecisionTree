@@ -55,7 +55,7 @@ public class Main {
         }
         // Train-Test split
         DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, temp, label_temp);
-        Node root = Dtree.buildTree(temp, 0, 6, featureArr);
+        Node root = Dtree.buildTree(temp, 0, featureArr);
         System.out.println("Decision tree Built Successfully  * o *");
 
         // Test the model
