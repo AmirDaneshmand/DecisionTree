@@ -2,11 +2,11 @@ import java.util.*;
 
 public class DecisionTreeClassifier {
 
-    private Tree tree;
+    private final Tree tree;
     private int minSamplesSplit;
     private int maxDepth;
     private double[][] data;
-    private int[] labels;
+    private final int[] labels;
 
     public DecisionTreeClassifier(Tree tree, double[][] data, int[] labels) {
         this.tree = tree;
@@ -30,7 +30,9 @@ public class DecisionTreeClassifier {
                tempNode = tempNode.getChilrenByIndex(checkFeature);
            }
            //           tempNode = tempNode.getChilrenByIndex(checkFeature);
-
+            if(tempNode.isLeaf){
+                return feature[tempNode.getFeatureIndex()];
+            }
         }
 
         return feature[tempNode.getFeatureIndex()];
