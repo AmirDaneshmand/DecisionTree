@@ -208,14 +208,14 @@ public class DecisionTreeClassifier {
     //gets split result and add them to parent Node
     private void buildChildren(List<double[][]> splitResult, Node parent, int featureIndex, int numSamples) {
         if (!splitResult.isEmpty()) {
-            for (int i = 0; i < splitResult.size(); i++) {
+            for (double[][] doubles : splitResult) {
                 Node childNode;
-                if (splitResult.get(i) != null) {
+                if (doubles != null) {
                     double[] childValues = new double[numSamples];
-                    for (int j = 0; j < splitResult.get(i).length; j++) {
-                        childValues[j] = splitResult.get(i)[j][featureIndex];
+                    for (int j = 0; j < doubles.length; j++) {
+                        childValues[j] = doubles[j][featureIndex];
                     }
-                    if (checkLeaf(splitResult.get(i))) {
+                    if (checkLeaf(doubles)) {
                         //childNode is a leaf Node
                         childNode = new Node(childValues, true);
                         System.out.println("Gorgali leaf");
