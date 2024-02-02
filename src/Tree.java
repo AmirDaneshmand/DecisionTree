@@ -5,9 +5,8 @@ public class Tree {
     int featureIndex;
     int threshold;
     Node root;
-    public Tree(int featureIndex, int threshold) {
+    public Tree(int featureIndex) {
         this.featureIndex = featureIndex;
-        this.threshold = threshold;
     }
 
     public Tree(Node root) {
@@ -24,14 +23,6 @@ public class Tree {
 
     public void setFeatureIndex(int featureIndex) {
         this.featureIndex = featureIndex;
-    }
-
-    public int getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(int threshold) {
-        this.threshold = threshold;
     }
 
     public Node getRoot() {

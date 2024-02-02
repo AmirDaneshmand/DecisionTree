@@ -5,11 +5,9 @@ import java.util.List;
 public class Node {
 
     private int featureIndex;
-    private double[] threshold;
     private List<Node> childrenNodes;
     private double infoGain;
     private double[] value;
-    private double[][] value2;
     private List<double[]> childrenList = null;
     Boolean isLeaf;
 

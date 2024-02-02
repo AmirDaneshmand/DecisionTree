@@ -3,7 +3,6 @@ import java.util.*;
 public class DecisionTreeClassifier {
 
     private Tree tree;
-    private int minSamplesSplit;
     private int maxDepth;
     private double[][] data;
     private int[] labels;

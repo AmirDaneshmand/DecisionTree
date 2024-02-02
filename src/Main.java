@@ -22,7 +22,7 @@ public class Main {
 		}
 
 		// Run ID3 Algorithm
-		Tree tree = new Tree(0 , 0);
+		Tree tree = new Tree(0);
 		//small temporary test on detaset
 		double[][] temp = new double[30][18];
 		for (int i = 0; i < 30; i++) {
