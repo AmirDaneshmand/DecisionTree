@@ -15,15 +15,21 @@ public class Main {
 
 		double[][] data = readCSV("Data/feature_train.csv", colNames);
 		double[][] label = readCSV("Data/label_train.csv" , colNames);
+		double[][] data_test = readCSV("Data/feature_test.csv", colNames);
+		double[][] label_test = readCSV("Data/label_test.csv" , colNames);
 
 		int [] label_temp = new int[label.length];
+		int [] label_test_temp = new int[label_test.length];
 		for (int i = 0; i < label.length; i++) {
 			label_temp[i] =(int) label[i][0];
+		}
+		for (int i = 0; i < label_test.length; i++) {
+			label_test_temp[i] =(int) label_test[i][0];
 		}
 
 		// Run ID3 Algorithm
 		Tree tree = new Tree(0);
-		//small temporary test on detaset
+		// Small temporary test on dataset
 		double[][] temp = new double[30][18];
 		for (int i = 0; i < 30; i++) {
 			for (int j = 0; j < 17; j++) {
@@ -32,6 +38,15 @@ public class Main {
 			}
 //                System.out.println();
 		}
+		System.out.println("feature tests = ");
+		double[][] temp_test = new double[30][18];
+		for (int i = 0; i < 30; i++) {
+			for (int j = 0; j < 17; j++) {
+				temp_test[i][j] = data_test[i][j];
+                    System.out.print(temp_test[i][j] + " ");
+			}
+                System.out.println();
+		}
 		ArrayList<Integer> featureArr = new ArrayList<>();
 		for (int i = 0; i < 17; i++) {
 			featureArr.add(i , i);
@@ -39,11 +54,19 @@ public class Main {
 		for (int i = 0; i < temp.length; i++) {
 			temp[i][temp[0].length - 1] = label_temp[i];
 		}
+		// Train-Test split
 		DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree , temp , label_temp);
 		Node root = Dtree.buildTree(temp, 0 , 6 , featureArr);
 		System.out.println("Decision tree Built Successfully  * o *");
 
-//		// Train-Test split
+		// Test the model
+		System.out.print("predicted Labels : ");
+		double[] predictedLabels = Dtree.makePrediction(temp_test , new Tree(root) , featureArr);
+		for (int i = 0; i < predictedLabels.length; i++) {
+			System.out.print(predictedLabels[i] + " ");
+		}
+
+
 //		double[][] X = new double[data.length][data[0].length - 1];
 //		double[] Y = new double[data.length];
 //		for (int i = 0; i < data.length; i++) {
@@ -63,7 +86,6 @@ public class Main {
 //		classifier.fit(X_train, Y_train);
 //		classifier.printTree();
 //
-//		// Test the model
 //		double[] Y_pred = classifier.predict(X_test);
 //		System.out.println(Arrays.toString(Y_pred));
 //

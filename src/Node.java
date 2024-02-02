@@ -51,6 +51,10 @@ public class Node {
         this.infoGain = infoGain;
     }
 
+    public int getFeatureIndex() {
+        return featureIndex;
+    }
+
     public double[] getValue() {
         return value;
     }
