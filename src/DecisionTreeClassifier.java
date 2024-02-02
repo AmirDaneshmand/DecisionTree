@@ -33,7 +33,7 @@ public class DecisionTreeClassifier {
 
         }
 
-        return 0.0;
+        return feature[tempNode.getFeatureIndex()];
     }
 
 //    public double[] predict(X) {
