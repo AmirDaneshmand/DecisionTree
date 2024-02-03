@@ -3,57 +3,72 @@ import java.util.*;
 public class DecisionTreeClassifier {
 
     private Tree tree;
-    private int minSamplesSplit;
-    private int maxDepth;
     private double[][] data;
     private int[] labels;
 
+    //Constructor
     public DecisionTreeClassifier(Tree tree, double[][] data, int[] labels) {
         this.tree = tree;
         this.data = data;
         this.labels = labels;
     }
 
-//    public double[] predict(double[][] X) {
-//        double[] predictions = new double[X.length];
-//        for (int i = 0; i < X.length; i++) {
-//            predictions[i] = makePrediction(X[i], tree.root);
-//        }
-//        return predictions;
-//    }
-//
-//    public double makePrediction(double[] x, Tree tree) {
-//        if (tree.getValue() != null) {
-//            return tree.getValue();
-//        }
-//
-//        double featureVal = x[tree.getFeatureIndex()];
-//        if (featureVal <= tree.getThreshold()) {
-//            return makePrediction(x, tree.getLeft());
-//        } else {
-//            return makePrediction(x, tree.getRight());
-//        }
-//    }
+    //Predicts the label of given dataset
+    public double predict(double dataset[][], Node node, int featureValue, ArrayList<Integer> featureArr) {
+        //if node is a Leaf Node
+        if (node.getLeaf())
+            return dataset[featureValue][dataset[0].length - 1];
+            //if node is Decision Node
+        else {
+            // Remove the featureValue from featureArr
+            deleteFeature(featureArr, featureValue);
+            Iterator<Integer> iterator = featureArr.iterator();
+            for (Node child : node.getChildrenNodes()) {
+                makePrediction(dataset, new Tree(node), featureArr);
+            }
+            return 0;
+        }
+    }
 
-    //building tree based on calculating iGain and Entropy for each split
-    public Node buildTree(double[][] dataset, int currDepth, int maxDepth, ArrayList<Integer> featureIndexArray) {
+    //Takes dataset and tree and iterates over parent's child to until reach a leaf
+    public double[] makePrediction(double[][] dataset, Tree tree, ArrayList<Integer> featureArr) {
+        Node root = tree.getRoot();
+        double predictedLabel;
+        double[] predictedArray = new double[dataset[0].length];
+        for (int i = 0; i < dataset[0].length; i++) {
+            for (Node child : root.getChildrenNodes()) {
+                int featureValue = (int) dataset[i][root.getFeatureIndex()];
+//                if (featureArrr.get(root.getFeatureIndex()) == featureValue) {
+                if (containValue(child, featureValue)) {
+                    predictedLabel = predict(dataset, child, featureValue, featureArr);
+                    if (predictedLabel != 0)
+                        predictedArray[i] = predictedLabel;
+                }
+//                }
+            }
+        }
+        return predictedArray;
+    }
+
+    //checks to see if a given Value is on the child 's values or not
+    private boolean containValue(Node child, int featureValue) {
+        for (double childValue : child.getValue()) {
+            if (childValue == featureValue)
+                return true;
+        }
+        return false;
+    }
+
+    //Building tree based on calculating iGain and Entropy for each split
+    public Node buildTree(double[][] dataset, int currDepth, ArrayList<Integer> featureIndexArray) {
         // Split the dataset
         Map<String, Object> bestSplit = getBestSplit(dataset, dataset.length, dataset[0].length, labels, featureIndexArray);
         // Extract information from the best split
-        int featureIndex = 20;
-        if (bestSplit.get("feature_index") != null)
-            featureIndex = (int) bestSplit.get("feature_index");
+        int featureIndex = (int) bestSplit.get("feature_index");
         double infoGain = (double) bestSplit.get("info_gain");
         Node parent = (Node) bestSplit.get("parent_node");
         // Remove the bestSplit's index from featureIndexArray
-        Iterator<Integer> iterator = featureIndexArray.iterator();
-        while (iterator.hasNext()) {
-            int feature = iterator.next();
-            if (feature == featureIndex) {
-                iterator.remove();
-                System.out.println("Removed bestSplit's index: " + featureIndex);
-            }
-        }
+        deleteFeature(featureIndexArray, featureIndex);
 //        double[][] dataset1 = new double[dataset.length][dataset[0].length];
 //        if (bestSplit.size() > 0)
 //            dataset1 = (double[][]) bestSplit.get("child_dataset1");
@@ -72,44 +87,20 @@ public class DecisionTreeClassifier {
         System.out.println("currDepth = " + currDepth);
         System.out.println("currinfoGain = " + infoGain);
         // Check conditions for building subtrees
-//        if (currDepth <= maxDepth) {
         for (int i = 0; i < parent.getChildrenNodes().size(); i++) {
             Node subTree;
-            if (calculateLeafValue((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1))) <= 0.9) {
+            if (calculateLeafValue((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1))) <= 0.8) {
                 //whether child Node is a Decision Node or Leaf Node
                 if (!parent.getChilrenByIndex(i).getLeaf()) {
                     System.out.println("GorgAliiiiiiiiiiii");
-                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1)), currDepth + 1, maxDepth, featureIndexArray);
+                    subTree = buildTree((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1)), currDepth + 1, featureIndexArray);
                 }
                 // Return a non-leaf node
                 return new Node(parent.getValue(), false);
             }
-//            }
         }
         // Return a Leaf Node
         return new Node((double[]) bestSplit.get("value"), true);
-
-//        double[][] X = new double[dataset.length][dataset[0].length - 1];
-//        double[] Y = new double[dataset.length];
-//        for (int i = 0; i < dataset.length; i++) {
-//            System.arraycopy(dataset[i], 0, X[i], 0, dataset[i].length - 1);
-//            Y[i] = dataset[i][dataset[i].length - 1];
-//        }
-//        int numSamples = X.length;
-//        int numFeatures = X[0].length + 1;
-//        if (numSamples >= minSamplesSplit && currDepth <= maxDepth) {
-//            Map<String, Object> bestSplit = getBestSplit(dataset, numSamples, numFeatures);
-//
-//            if ((double) bestSplit.get("info_gain") > 0) {
-//                Node leftSubtree = buildTree((double[][]) bestSplit.get("dataset_left"), currDepth + 1,
-//                        minSamplesSplit, maxDepth);
-//                Node rightSubtree = buildTree((double[][]) bestSplit.get("dataset_right"), currDepth + 1,
-//                        minSamplesSplit, maxDepth);
-//
-//                return new Node((int) bestSplit.get("threshold"), (double) bestSplit.get("info_gain"), (int) bestSplit.get("feature_index"));
-//            }
-//        }
-//        double[] leafValue = calculateLeafValue(Y);
     }
 
     //check for leaf or decision Node
@@ -190,11 +181,11 @@ public class DecisionTreeClassifier {
                     if (checkLeaf(splitResult.get(i))) {
                         //childNode is a leaf Node
                         childNode = new Node(childValues, true);
-                        System.out.println("Gorgali leaf");
+//                        System.out.println("Gorgali leaf");
                     } else {
                         //childNode is a Decision Node
                         childNode = new Node(childValues, false);
-                        System.out.println("Gorgali Decision Node");
+//                        System.out.println("Gorgali Decision Node");
                     }
                     parent.addChild(childNode);
                 }
@@ -202,6 +193,17 @@ public class DecisionTreeClassifier {
         }
     }
 
+    //Removes an element from an ArrayList and return it at the end
+    private void deleteFeature(ArrayList<Integer> featureArray, int featuretoRemove) {
+        Iterator<Integer> iterator = featureArray.iterator();
+        while (iterator.hasNext()) {
+            int feature = iterator.next();
+            if (feature == featuretoRemove) {
+                iterator.remove();
+//                System.out.println("Removed bestSplit's index: " + featuretoRemove);
+            }
+        }
+    }
 //    public void fit(double[][] X, double[] Y) {
 //        double[][] dataset = new double[X.length][X[0].length + 1];
 //        for (int i = 0; i < X.length; i++) {
@@ -210,27 +212,6 @@ public class DecisionTreeClassifier {
 //        }
 //
 //        root = buildTree(dataset, 0);
-//    }
-
-//    public double[] predict(double[][] X) {
-//        double[] predictions = new double[X.length];
-//        for (int i = 0; i < X.length; i++) {
-//            predictions[i] = makePrediction(X[i], root);
-//        }
-//        return predictions;
-//    }
-//
-//    public double makePrediction(double[] x, Node tree) {
-//        if (tree.getValue() != null) {
-//            return tree.getValue();
-//        }
-//
-//        double featureVal = x[tree.getFeatureIndex()];
-//        if (featureVal <= tree.getThreshold()) {
-//            return makePrediction(x, tree.getLeft());
-//        } else {
-//            return makePrediction(x, tree.getRight());
-//        }
 //    }
 
     //calculate possible threshold
@@ -299,20 +280,53 @@ public class DecisionTreeClassifier {
         return datasetListresult;
     }
 
+    //Pours dataset-result List by getting each row of dataset List
     private void pourList(List<double[][]> datasetListresult, List<double[]> datasetlist, int numFeatures) {
         if (!datasetlist.isEmpty()) {
             double[][] temp = new double[datasetlist.size()][numFeatures];
             for (int j = 0; j < datasetlist.size(); j++) {
                 for (int l = 0; l < numFeatures; l++) {
                     temp[j][l] = datasetlist.get(j)[l];
-                    System.out.print(" " + temp[j][l] + " ");
+//                    System.out.print(" " + temp[j][l] + " ");
                 }
-                System.out.println();
+//                System.out.println();
             }
             datasetListresult.add(temp);
         }
     }
 
+    //find the element with the maximum occurrences and calculate the purity
+    public double calculateLeafValue(double[][] dataset) {
+        int lastIndex = dataset[0].length - 1; // Assuming the last column is at index 17
+
+        // Count occurrences of each unique element in the last column
+        Map<Double, Integer> countMap = new HashMap<>();
+        for (int j = 0; j < dataset.length; j++) {
+            double element = dataset[j][lastIndex];
+            countMap.put(element, countMap.getOrDefault(element, 0) + 1);
+            System.out.print("element " + element);
+        }
+
+        // Find the element with the maximum occurrences
+        double mostRepeatedElement = 0;
+        int maxOccurrences = 0;
+        for (Map.Entry<Double, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() > maxOccurrences) {
+                maxOccurrences = entry.getValue();
+                mostRepeatedElement = entry.getKey();
+            }
+        }
+
+        // Calculate purity (occurrences of most repeated element / total elements)
+        double purity = (double) maxOccurrences / dataset.length;
+
+        System.out.println("Most Repeated Element: " + mostRepeatedElement);
+        System.out.println("Purity: " + purity);
+
+        return purity;
+    }
+
+    //Not Implemented Yet.
 //    public void printTree(Node tree, String indent) {
 //        if (tree.getValue() != null) {
 //            System.out.println(tree.getValue());
@@ -338,70 +352,16 @@ public class DecisionTreeClassifier {
     //    public float[] predictAll(float[][] data, int depth) {
 //        return new float[0];
 //    }
-    //Not Implemented Yet .
-//    public double calculateLeafValue(double[][] dataset) {
-//        double equals = dataset[0][17];
-//        double purity;
-//        for (int j = 0; j < dataset.length; j++) {
-//            if (dataset[j][17] == equals) {
-//
-//            }
-//        }
-//
-//        Map<Double, Integer> counts = new HashMap<>();
-//        for (double value : Y) {
-//            counts.put(value, counts.getOrDefault(value, 0) + 1);
-//        }
-//
-//        double maxCount = Double.NEGATIVE_INFINITY;
-//        double leafValue = 0;
-//
-//        for (Map.Entry<Double, Integer> entry : counts.entrySet()) {
-//            if (entry.getValue() > maxCount) {
-//                maxCount = entry.getValue();
-//                leafValue = entry.getKey();
-//            }
-//        }
-//
-//        return new double[]{leafValue};
-//    }
-    public double calculateLeafValue(double[][] dataset) {
-        int lastIndex = dataset[0].length - 1; // Assuming the last column is at index 17
 
-        // Count occurrences of each unique element in the last column
-        Map<Double, Integer> countMap = new HashMap<>();
-        for (int j = 0; j < dataset.length; j++) {
-            double element = dataset[j][lastIndex];
-            countMap.put(element, countMap.getOrDefault(element, 0) + 1);
-        }
-
-        // Find the element with the maximum occurrences
-        double mostRepeatedElement = 0;
-        int maxOccurrences = 0;
-        for (Map.Entry<Double, Integer> entry : countMap.entrySet()) {
-            if (entry.getValue() > maxOccurrences) {
-                maxOccurrences = entry.getValue();
-                mostRepeatedElement = entry.getKey();
-            }
-        }
-
-        // Calculate purity (occurrences of most repeated element / total elements)
-        double purity = (double) maxOccurrences / dataset.length;
-
-        System.out.println("Most Repeated Element: " + mostRepeatedElement);
-        System.out.println("Purity: " + purity);
-
-        return purity;
-    }
-
-    // Not Implemented Yet
     // compare correctLabels and predictedLabels and calculate the accuracy of the algorithm
-    public double accuracyScore(double[] correctLabels, double[] predictedLabels) {
+    public double accuracyScore(int[] correctLabels, double[] predictedLabels) {
         int correctPredicted = 0;
         for (int i = 0; i < correctLabels.length; i++) {
             if (correctLabels[i] == predictedLabels[i])
                 correctPredicted++;
         }
-        return (double) correctPredicted / correctLabels.length * 100.0;
+        System.out.println("correct predicted = " + correctPredicted);
+        System.out.println("correctLabels.length = " + correctLabels.length);
+        return (double) correctPredicted / correctLabels.length;
     }
 }

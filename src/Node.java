@@ -5,14 +5,13 @@ import java.util.List;
 public class Node {
 
     private int featureIndex;
-    private double[] threshold;
     private List<Node> childrenNodes;
     private double infoGain;
     private double[] value;
-    private double[][] value2;
     private List<double[]> childrenList = null;
     Boolean isLeaf;
 
+    //Constructor
     public Node(double[] value) {
         this.value = value;
         this.childrenNodes = new ArrayList<>();
@@ -21,6 +20,7 @@ public class Node {
         this.setValue(value);
     }
 
+    //Constructor
     public Node(double[] value, Boolean isLeaf) {
         this.childrenNodes = new ArrayList<>();
         this.value = value;
@@ -53,6 +53,10 @@ public class Node {
         this.infoGain = infoGain;
     }
 
+    public int getFeatureIndex() {
+        return featureIndex;
+    }
+
     public double[] getValue() {
         return value;
     }
@@ -61,7 +65,7 @@ public class Node {
         return childrenNodes;
     }
 
-    public Node getChilrenByIndex(int index){
+    public Node getChilrenByIndex(int index) {
         int i = 0;
         for (Node child : this.childrenNodes) {
             if (i == index)
