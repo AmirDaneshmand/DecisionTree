@@ -55,13 +55,14 @@ public class Main {
         for (int i = 0; i < temp.length; i++) {
             temp[i][temp[0].length - 1] = label_temp[i];
         }
-        // Train-Test split
+        // Train the Model
         DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, temp, label_temp);
         Node root = Dtree.buildTree(temp, 0, featureArr);
+        System.out.println("root.getFeatureIndex() : " + root.getFeatureIndex());
 //        System.out.println("root on Main : " + root.getFeatureIndex());
         System.out.println("Decision tree Built Successfully  * o *");
 
-        // Test the model
+        // Test the Model
 //        System.out.print("predicted Labels : ");
 //        double[] predictedLabels = Dtree.makePrediction(temp_test, root, featureArr);
 //        for (int i = 0; i < predictedLabels.length; i++) {

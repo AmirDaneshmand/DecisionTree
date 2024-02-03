@@ -46,8 +46,8 @@ public class Tree {
             weight[i] = calculateChildWeight(childValues, parentNode.getValue());
             sumEntropies += weight[i] * entropy(childValues);
         }
-        if (sumEntropies == 0)
-            System.out.println("this Node is leaf Node");
+//        if (sumEntropies == 0)
+//            System.out.println("this Node is leaf Node");
         gain = entropy(parentNode.getValue()) - sumEntropies;
         parentNode.setInfoGain(gain);
         return gain;
