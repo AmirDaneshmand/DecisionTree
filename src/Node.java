@@ -61,6 +61,10 @@ public class Node {
         return value;
     }
 
+    public void setFeatureIndex(int featureIndex) {
+        this.featureIndex = featureIndex;
+    }
+
     public List<Node> getChildrenNodes() {
         return childrenNodes;
     }

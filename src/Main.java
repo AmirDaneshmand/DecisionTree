@@ -58,20 +58,20 @@ public class Main {
         // Train the Model
         DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, temp, label_temp);
         Node root = Dtree.buildTree(temp, 0, featureArr);
-        System.out.println("root.getFeatureIndex() : " + root.getFeatureIndex());
+//        System.out.println("root.getFeatureIndex() : " + root.getChildrenNodes());
 //        System.out.println("root on Main : " + root.getFeatureIndex());
         System.out.println("Decision tree Built Successfully  * o *");
 
         // Test the Model
-//        System.out.print("predicted Labels : ");
-//        double[] predictedLabels = Dtree.makePrediction(temp_test, root, featureArr);
-//        for (int i = 0; i < predictedLabels.length; i++) {
-//            System.out.print(predictedLabels[i] + " ");
-//        }
-//        int[] label_test_temporary = new int[predictedLabels.length];
-//        for (int i = 0; i < predictedLabels.length; i++) {
-//            label_test_temporary[i] = label_test_temp[i];
-//        }
+        System.out.print("predicted Labels : ");
+        double[] predictedLabels = Dtree.makePrediction(temp_test, root, featureArr);
+        for (int i = 0; i < predictedLabels.length; i++) {
+            System.out.print(predictedLabels[i] + " ");
+        }
+        int[] label_test_temporary = new int[predictedLabels.length];
+        for (int i = 0; i < predictedLabels.length; i++) {
+            label_test_temporary[i] = label_test_temp[i];
+        }
         // Assuming accuracy_score
 //        double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
 

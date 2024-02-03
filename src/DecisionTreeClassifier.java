@@ -42,15 +42,15 @@ public class DecisionTreeClassifier {
 
     //Takes dataset and tree and iterates over parent's child to until reach a leaf
     public double[] makePrediction(double[][] dataset, Node root, ArrayList<Integer> featureArr) {
-//        Node root = tree.getRoot();
+        Node rootNode = this.getRoot();
 //        System.out.println("rootValue = " + Arrays.toString(this.root.getValue()));
         double predictedLabel;
         double[] predictedArray = new double[dataset.length];
         for (int i = 0; i < dataset.length; i++) {
 //            System.out.println("dataset[i][root.getFeatureIndex()] = " + dataset[i][this.root.getFeatureIndex()]);
 //            System.out.println(this.root.getChildrenNodes());
-            for (Node child : this.root.getChildrenNodes()) {
-                int featureValue = (int) dataset[i][this.root.getFeatureIndex()];
+            for (Node child : rootNode.getChildrenNodes()) {
+                int featureValue = (int) dataset[i][rootNode.getFeatureIndex()];
 //                if (featureArrr.get(root.getFeatureIndex()) == featureValue) {
                 if (containValue(child, featureValue)) {
                     predictedLabel = predict(dataset, child, featureValue, featureArr);
@@ -93,7 +93,12 @@ public class DecisionTreeClassifier {
                 System.out.println("featureIndex of best split = " + featureIndex);
                 System.out.println("information gain of best split = " + infoGain);
                 if (firstBuild) {
-                    root = parent;
+                    System.out.println("Gorgali");
+                    parent.setInfoGain(infoGain);
+                    parent.setLeaf(false);
+                    parent.setChildrenNodes(parent.getChildrenNodes());
+                    parent.setFeatureIndex(featureIndex);
+                    this.setRoot(parent);
                     tree.setRoot(parent);
                     firstBuild = false;
                 }
@@ -101,10 +106,12 @@ public class DecisionTreeClassifier {
                 deleteFeature(featureIndexArray, featureIndex);
                 System.out.println("currDepth = " + currDepth);
 //        System.out.println("currinfoGain = " + infoGain);
-//                System.out.println("fit(parent , bestSplit , currDepth , featureIndexArray).getFeatureIndex() : " +
-//                        fit(parent, bestSplit, currDepth, featureIndexArray).getFeatureIndex());
-                if (parent != null)
-                    return fit(parent, bestSplit, currDepth, featureIndexArray);
+
+                if (parent != null) {
+                    Node Temp = fit(parent, bestSplit, currDepth, featureIndexArray);
+                    System.out.println("Temp.getFeatureIndex() : " + Temp.getFeatureIndex());
+                    return Temp;
+                }
                 // Return a non-leaf node
 //        return new Node(parent.getValue(), false);
                 // Return a Leaf Node
