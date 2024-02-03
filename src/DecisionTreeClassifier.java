@@ -26,7 +26,7 @@ public class DecisionTreeClassifier {
     public double predict(double[][] dataset, Node node, int featureValue, ArrayList<Integer> featureArr , int index) {
         //if node is a Leaf Node
         if (node.getLeaf()) {
-            System.out.println("dataset[featureValue][dataset[0].length - 1] = " + dataset[featureValue][dataset[0].length - 1]);
+//            System.out.println("dataset[featureValue][dataset[0].length - 1] = " + dataset[featureValue][dataset[0].length - 1]);
             return dataset[featureValue][dataset[0].length - 1];
         }
         //if node is a Decision Node
@@ -64,9 +64,11 @@ public class DecisionTreeClassifier {
 
     //checks to see if a given Value is on the child 's values or not
     private boolean containValue(Node child, int featureValue) {
-        for (double childValue : child.getValue()) {
-            if (childValue == featureValue)
-                return true;
+        if (child != null) {
+            for (double childValue : child.getValue()) {
+                if (childValue == featureValue)
+                    return true;
+            }
         }
         return false;
     }
@@ -89,10 +91,9 @@ public class DecisionTreeClassifier {
                 Node parent = null;
                 if (bestSplit.get("parent_node") != null)
                     parent = (Node) bestSplit.get("parent_node");
-                System.out.println("featureIndex of best split = " + featureIndex);
-                System.out.println("information gain of best split = " + infoGain);
+//                System.out.println("featureIndex of best split = " + featureIndex);
+//                System.out.println("information gain of best split = " + infoGain);
                 if (firstBuild) {
-                    System.out.println("Gorgali");
                     parent.setInfoGain(infoGain);
                     parent.setLeaf(false);
                     parent.setChildrenNodes(parent.getChildrenNodes());
@@ -103,12 +104,12 @@ public class DecisionTreeClassifier {
                 }
                 // Remove the bestSplit's index from featureIndexArray
                 deleteFeature(featureIndexArray, featureIndex);
-                System.out.println("currDepth = " + currDepth);
+//                System.out.println("currDepth = " + currDepth);
 //        System.out.println("currinfoGain = " + infoGain);
 
                 if (parent != null) {
                     Node Temp = fit(parent, bestSplit, currDepth, featureIndexArray);
-                    System.out.println("Temp.getFeatureIndex() : " + Temp.getFeatureIndex());
+//                    System.out.println("Temp.getFeatureIndex() : " + Temp.getFeatureIndex());
                     return Temp;
                 }
                 // Return a non-leaf node

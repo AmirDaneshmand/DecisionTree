@@ -28,11 +28,11 @@ public class Main {
             label_test_temp[i] = (int) label_test[i][0];
         }
 
-        // Run ID3 Algorithm
+        // Run the Algorithm
         Tree tree = new Tree(0);
         // Small temporary test on dataset
-        double[][] temp = new double[50][18];
-        for (int i = 0; i < 50; i++) {
+        double[][] temp = new double[2000][18];
+        for (int i = 0; i < 2000; i++) {
             for (int j = 0; j < 17; j++) {
                 temp[i][j] = data[i][j];
 //                    System.out.print(temp[i][j] + " ");
@@ -40,8 +40,8 @@ public class Main {
 //                System.out.println();
         }
 //        System.out.println("Dataset test = ");
-        double[][] temp_test = new double[50][18];
-        for (int i = 0; i < 50; i++) {
+        double[][] temp_test = new double[2000][18];
+        for (int i = 0; i < 2000; i++) {
             for (int j = 0; j < 17; j++) {
                 temp_test[i][j] = data_test[i][j];
 //                System.out.print(temp_test[i][j] + " ");
@@ -56,7 +56,7 @@ public class Main {
             temp[i][temp[0].length - 1] = label_temp[i];
         }
         // Train the Model
-        DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, temp, label_temp);
+        DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, data, label_temp);
         Node root = Dtree.buildTree(temp, 0, featureArr);
 //        System.out.println("root.getFeatureIndex() : " + root.getChildrenNodes());
 //        System.out.println("root on Main : " + root.getFeatureIndex());
@@ -66,15 +66,15 @@ public class Main {
         double[] predictedLabels = new double[temp_test.length];
         System.out.print("predicted Labels : ");
         for (int i = 0; i < temp_test.length; i++) {
-            predictedLabels[i] = Dtree.makePrediction(temp_test, root, featureArr , i);
+            predictedLabels[i] = Dtree.makePrediction(data_test, root, featureArr , i);
         }
-        for (int i = 0; i < predictedLabels.length; i++) {
-            System.out.print(predictedLabels[i] + " ");
-        }
+//        for (int i = 0; i < predictedLabels.length; i++) {
+//            System.out.print(predictedLabels[i] + " ");
+//        }
         int[] label_test_temporary = new int[predictedLabels.length];
         for (int i = 0; i < predictedLabels.length; i++) {
             label_test_temporary[i] = label_test_temp[i];
-            System.out.print(label_test_temporary[i] + " ");
+//            System.out.print(label_test_temporary[i] + " ");
         }
         // Assuming accuracy_score
         double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
@@ -93,33 +93,9 @@ public class Main {
         } else {
             System.out.println(" ***  Congratulations *o*  ***");
             double mydouble = accuracy * 100.0;
-            System.out.printf("Your Algorithm has %.2f ", mydouble);
+            System.out.printf("The Algorithm has %.3f ", mydouble);
             System.out.println(" % " + " accuracy !!! \n");
         }
-
-
-//		double[][] X = new double[data.length][data[0].length - 1];
-//		double[] Y = new double[data.length];
-//		for (int i = 0; i < data.length; i++) {
-//			System.arraycopy(data[i], 0, X[i], 0, data[i].length - 1);
-//			Y[i] = data[i][data[i].length - 1];
-//		}
-//
-//		int randomState = 41;
-//		double[][] X_train, X_test;
-//		double[] Y_train, Y_test;
-//
-//		// Assuming train_test_split is similar to Python's sklearn.model_selection.train_test_split
-//		trainTestSplit(X, Y, 0.2, randomState, X_train, X_test, Y_train, Y_test);
-//
-//		// Fit the model
-//		DecisionTreeClassifier classifier = new DecisionTreeClassifier(3, 3);
-//		classifier.fit(X_train, Y_train);
-//		classifier.printTree();
-//
-//		double[] Y_pred = classifier.predict(X_test);
-//		System.out.println(Arrays.toString(Y_pred));
-
         // Example usage with a list of children Nodes
 //        Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
 //        Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
