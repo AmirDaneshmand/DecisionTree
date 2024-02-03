@@ -100,29 +100,27 @@ public class DecisionTreeClassifier {
 //            dataset5 = (double[][]) bestSplit.get("child_dataset5");
         System.out.println("currDepth = " + currDepth);
         System.out.println("currinfoGain = " + infoGain);
-        // Check conditions for building subtrees
-        for (int i = 0; i < parent.getChildrenNodes().size(); i++) {
-            System.out.println("parent.getChildrenNodes().size() : " + parent.getChildrenNodes().size());
-            System.out.println("Gorgaliiiiiiiiiiii");
-            if (calculateLeafValue((double[][]) bestSplit.get(String.format("child_dataset%d", i + 1))) <= 0.9) {
-
-
-                // Return a non-leaf node
-                return new Node(parent.getValue(), false);
-            }
-        }
+        return fit(parent , bestSplit , currDepth , featureIndexArray);
+        // Return a non-leaf node
+//        return new Node(parent.getValue(), false);
         // Return a Leaf Node
-        return new Node((double[]) bestSplit.get("value"), true);
+//        return new Node((double[]) bestSplit.get("value"), true);
     }
+
     //Fits the Tree by building its Subtrees'
-    public void fit(Node parent, Map<String, Object> bestsplit, int currDepth, ArrayList<Integer> fIndexArr) {
+    public Node fit(Node parent, Map<String, Object> bestsplit, int currDepth, ArrayList<Integer> fIndexArr) {
         //Stores Decision Nodes' Indexes
         ArrayList<Integer> dNodeIndex = new ArrayList<>();
+        System.out.println("parent.getChildrenNodes().size() : " + parent.getChildrenNodes().size());
         for (int i = 0; i < parent.getChildrenNodes().size(); i++) {
+            System.out.println("Gorgaliiiiiiiiiiii");
             //whether child Node is a Decision Node or Leaf Node
-            if (!checkLeaf((double[][]) bestsplit.get(String.format("child_dataset%d", i + 1))))
-                dNodeIndex.add(i + 1);
+            if (!checkLeaf((double[][]) bestsplit.get(String.format("child_dataset%d", i + 1)))) {
+                if (calculateLeafValue((double[][]) bestsplit.get(String.format("child_dataset%d", i + 1))) <= 0.9)
+                    dNodeIndex.add(i + 1);
+            }
         }
+        // Check Conditions for Building Subtrees
         Node leftSubtree;
         if (dNodeIndex.size() > 0) {
             leftSubtree = buildTree((double[][]) bestsplit.get(String.format("child_dataset%d", dNodeIndex.get(0))), currDepth + 1, fIndexArr);
@@ -143,6 +141,7 @@ public class DecisionTreeClassifier {
                 }
             }
         }
+        return parent;
     }
 
     //check for leaf or decision Node
@@ -372,21 +371,7 @@ public class DecisionTreeClassifier {
 //        }
 //    }
 
-//    public void fit(double[][] X, double[] Y) {
-//        double[][] dataset = new double[X.length][X[0].length + 1];
-//        for (int i = 0; i < X.length; i++) {
-//            System.arraycopy(X[i], 0, dataset[i], 0, X[i].length);
-//            dataset[i][X[i].length] = Y[i];
-//        }
-//
-//        root = buildTree(dataset, 0);
-//    }
-
-    //    public float[] predictAll(float[][] data, int depth) {
-//        return new float[0];
-//    }
-
-    // compare correctLabels and predictedLabels and calculate the accuracy of the algorithm
+    // compares correctLabels and predictedLabels and calculates the accuracy of the Algorithm
     public double accuracyScore(int[] correctLabels, double[] predictedLabels) {
         int correctPredicted = 0;
         for (int i = 0; i < correctLabels.length; i++) {
