@@ -6,6 +6,7 @@ public class DecisionTreeClassifier {
     private Node root;
     private double[][] data;
     private int[] labels;
+    private boolean firstBuild = true;
 
     //Constructor
     public DecisionTreeClassifier(Tree tree, double[][] data, int[] labels) {
@@ -23,7 +24,7 @@ public class DecisionTreeClassifier {
     }
 
     //Predicts the label of given dataset
-    public double predict(double[][] dataset, Node node, int featureValue, ArrayList<Integer> featureArr , int index) {
+    public double predict(double[][] dataset, Node node, int featureValue, ArrayList<Integer> featureArr, int index) {
         //if node is a Leaf Node
         if (node.getLeaf()) {
 //            System.out.println("dataset[featureValue][dataset[0].length - 1] = " + dataset[featureValue][dataset[0].length - 1]);
@@ -34,32 +35,35 @@ public class DecisionTreeClassifier {
             // Remove the featureValue from featureArr
             deleteFeature(featureArr, featureValue);
 //            for (Node child : node.getChildrenNodes()) {
-            makePrediction(dataset, node, featureArr , index);
+            makePrediction(dataset, node, featureArr, index);
 //            }
             return 0;
         }
     }
 
     //Takes dataset and tree and iterates over parent's child to until reach a leaf
-    public double makePrediction(double[][] dataset, Node rootNode, ArrayList<Integer> featureArr , int index) {
+    public double makePrediction(double[][] dataset, Node rootNode, ArrayList<Integer> featureArr, int index) {
 //        Node rootNode = this.getRoot();
 //        System.out.println("rootValue = " + Arrays.toString(this.root.getValue()));
         double predictedLabel = 0;
         double[] predictedArray = new double[dataset.length];
 //            System.out.println("dataset[i][root.getFeatureIndex()] = " + dataset[i][this.root.getFeatureIndex()]);
 //            System.out.println(this.root.getChildrenNodes());
+        if (rootNode != null) {
             for (Node child : rootNode.getChildrenNodes()) {
                 int featureValue = (int) dataset[index][rootNode.getFeatureIndex()];
 //                if (featureArrr.get(root.getFeatureIndex()) == featureValue) {
                 if (containValue(child, featureValue)) {
-                    predictedLabel = predict(dataset, child, featureValue, featureArr , index);
+                    predictedLabel = predict(dataset, child, featureValue, featureArr, index);
                     if (predictedLabel != 0)
                         return predictedLabel;
 //                        predictedArray[index] = predictedLabel;
                 }
 //                }
             }
-        return predictedLabel;
+            return predictedLabel;
+        }
+        return 0;
     }
 
     //checks to see if a given Value is on the child 's values or not
@@ -72,8 +76,6 @@ public class DecisionTreeClassifier {
         }
         return false;
     }
-
-    private boolean firstBuild = true;
 
     //Building tree based on calculating iGain and Entropy for each split
     public Node buildTree(double[][] dataset, int currDepth, ArrayList<Integer> featureIndexArray) {
@@ -93,7 +95,7 @@ public class DecisionTreeClassifier {
                     parent = (Node) bestSplit.get("parent_node");
 //                System.out.println("featureIndex of best split = " + featureIndex);
 //                System.out.println("information gain of best split = " + infoGain);
-                if (firstBuild) {
+                if (firstBuild && parent != null) {
                     parent.setInfoGain(infoGain);
                     parent.setLeaf(false);
                     parent.setChildrenNodes(parent.getChildrenNodes());

@@ -96,17 +96,27 @@ public class Main {
             System.out.printf("The Algorithm has %.3f ", mydouble);
             System.out.println(" % " + " accuracy !!! \n");
         }
-        // Example usage with a list of children Nodes
-//        Node child1 = new Node(new double[]{1.0, 1.0, 0.0 , 2.0 , 3.0 , 3.0});
-//        Node child2 = new Node(new double[]{1.0, 1.0, 1.0 , 5.0});
-//        Node Parent = new Node(new double[]{0} , 0 , new double[]{1.0, 0.0, 1.0, 2.0, 3.0});
-//        Parent.addChild(child1);
-//        Parent.addChild(child2);
-//		Tree Test_tree = new Tree(Parent);
-//        Test_tree.informationGain(Parent);
-//        System.out.println("information gain of " + Arrays.toString(Parent.getValue()) + " Node is : " + Parent.getInfoGain());
-//        Test_tree.informationGain(child1);
-//        System.out.println("information gain of " + Arrays.toString(child1.getValue()) + " Node is : " + child1.getInfoGain());
+
+        RForestClassifier forestClassifier = new RForestClassifier(data , label_temp , 5);
+        double[] rForestPredict = forestClassifier.makePredictions(data , featureArr);
+        double rForestAccuracy = forestClassifier.accuracy(label_test_temporary , rForestPredict);
+        if (accuracy < 0.75) {
+            System.out.println();
+            System.out.println("Your Fucking Random Forest accuracy is = " + (accuracy * 100) + " % ");
+            System.out.println("""
+                    Holy\s
+                    \t Bloody\s
+                    \t\t Fucking\s
+                    \t\t\t Damn\s
+                    \t\t\t\t shit\s
+                    \t\t\t\t\t body !\s
+                     This shit have less than 75% accuracy !!!!!\s""");
+        } else {
+            System.out.println(" ***  Congratulations *o*  ***");
+            double mydouble = accuracy * 100.0;
+            System.out.printf("The Random Forest Algorithm has %.3f ", mydouble);
+            System.out.println(" % " + " accuracy !!! \n");
+        }
     }
 
     //reads csv file line by line and passes an array of its data's

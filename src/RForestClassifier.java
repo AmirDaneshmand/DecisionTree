@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class RForestClassifier {
 
@@ -9,7 +6,7 @@ public class RForestClassifier {
     private int numberOfEstimators;
 
     // Constructor
-    public RForestClassifier(double[][] dataset, int[] labels, int numberOfEstimators, int maxDepth) {
+    public RForestClassifier(double[][] dataset, int[] labels, int numberOfEstimators) {
         this.numberOfEstimators = numberOfEstimators;
         decisionTrees = new ArrayList<>();
 
@@ -41,33 +38,39 @@ public class RForestClassifier {
     }
 
     // Make predictions for a single sample
-    public double predict(double[] sample) {
-        int[] votes = new int[2]; // Assuming binary classification (0 or 1)
-
+    public double predict(double[] dataset , ArrayList<Integer> featureIndexArr , int index) {
+        // Assuming multiple classification
+        int[] votes = new int[9];
+        int maxOccurrences = 0;
+        if (dataset != null) {
         // Collect votes from each decision tree
         for (DecisionTreeClassifier treeClassifier : decisionTrees) {
-            double prediction = treeClassifier.makePrediction(new double[][]{sample}, treeClassifier.getRoot(), new ArrayList<>(), 0);
+            double prediction = treeClassifier.makePrediction(new double[][]{dataset}, treeClassifier.getRoot(), featureIndexArr, index);
             votes[(int) prediction]++;
         }
-
         // Return the label with the majority of votes
-        return votes[1] > votes[0] ? 1.0 : 0.0;
+            for (int vote : votes) {
+                if (vote > maxOccurrences)
+                    maxOccurrences = vote;
+            }
+        }
+        return maxOccurrences;
     }
 
-    // Make predictions for multiple samples
-    public double[] makePredictions(double[][] samples) {
-        double[] predictions = new double[samples.length];
+    // Make predictions for multiple datasets
+    public double[] makePredictions(double[][] dataset , ArrayList<Integer> featureIndexArr) {
+        double[] predictions = new double[dataset.length];
 
         // Make predictions for each sample
-        for (int i = 0; i < samples.length; i++) {
-            predictions[i] = predict(samples[i]);
+        for (int i = 0; i < dataset.length; i++) {
+            predictions[i] = predict(dataset[i] , featureIndexArr , i);
         }
 
         return predictions;
     }
 
     // Calculate the accuracy of the model
-    public double accuracy(double[] trueLabels, double[] predictedLabels) {
+    public double accuracy(int[] trueLabels, double[] predictedLabels) {
         int correctPredictions = 0;
 
         // Count the number of correct predictions
