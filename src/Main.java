@@ -63,8 +63,11 @@ public class Main {
         System.out.println("Decision tree Built Successfully  * o *");
 
         // Test the Model
+        double[] predictedLabels = new double[temp_test.length];
         System.out.print("predicted Labels : ");
-        double[] predictedLabels = Dtree.makePrediction(temp_test, root, featureArr);
+        for (int i = 0; i < temp_test.length; i++) {
+            predictedLabels[i] = Dtree.makePrediction(temp_test, root, featureArr , i);
+        }
         for (int i = 0; i < predictedLabels.length; i++) {
             System.out.print(predictedLabels[i] + " ");
         }
@@ -73,23 +76,24 @@ public class Main {
             label_test_temporary[i] = label_test_temp[i];
         }
         // Assuming accuracy_score
-//        double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
+        double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
 
-//        if (accuracy < 0.75) {
-//            System.out.println("Your Fucking accuracy is = " + accuracy);
-//            System.out.println("""
-//                    Holy\s
-//                    \t Bloody\s
-//                    \t\t Fucking\s
-//                    \t\t\t Damn\s
-//                    \t\t\t\t shit\s
-//                    \t\t\t\t\t body !\s
-//                     This shit have less than 75% accuracy !!!!!\s""");
-//        } else {
-//            System.out.println(" ***  Congratulations *o*  ***");
-//            double mydouble = accuracy / 100.0;
-//            System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
-//        }
+        if (accuracy < 0.75) {
+            System.out.println();
+            System.out.println("Your Fucking accuracy is = " + (accuracy * 100) + " % ");
+            System.out.println("""
+                    Holy\s
+                    \t Bloody\s
+                    \t\t Fucking\s
+                    \t\t\t Damn\s
+                    \t\t\t\t shit\s
+                    \t\t\t\t\t body !\s
+                     This shit have less than 75% accuracy !!!!!\s""");
+        } else {
+            System.out.println(" ***  Congratulations *o*  ***");
+            double mydouble = accuracy / 100.0;
+            System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
+        }
 
 
 //		double[][] X = new double[data.length][data[0].length - 1];

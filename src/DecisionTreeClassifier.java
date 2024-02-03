@@ -23,44 +23,43 @@ public class DecisionTreeClassifier {
     }
 
     //Predicts the label of given dataset
-    public double predict(double dataset[][], Node node, int featureValue, ArrayList<Integer> featureArr) {
+    public double predict(double[][] dataset, Node node, int featureValue, ArrayList<Integer> featureArr , int index) {
         //if node is a Leaf Node
-//        System.out.println("dataset[featureValue][dataset[0].length - 1] = " + dataset[featureValue][dataset[0].length - 1]);
         if (node.getLeaf()) {
+            System.out.println("dataset[featureValue][dataset[0].length - 1] = " + dataset[featureValue][dataset[0].length - 1]);
             return dataset[featureValue][dataset[0].length - 1];
         }
-        //if node is Decision Node
+        //if node is a Decision Node
         else {
             // Remove the featureValue from featureArr
             deleteFeature(featureArr, featureValue);
 //            for (Node child : node.getChildrenNodes()) {
-            makePrediction(dataset, node, featureArr);
+            makePrediction(dataset, node, featureArr , index);
 //            }
             return 0;
         }
     }
 
     //Takes dataset and tree and iterates over parent's child to until reach a leaf
-    public double[] makePrediction(double[][] dataset, Node root, ArrayList<Integer> featureArr) {
-        Node rootNode = this.getRoot();
+    public double makePrediction(double[][] dataset, Node rootNode, ArrayList<Integer> featureArr , int index) {
+//        Node rootNode = this.getRoot();
 //        System.out.println("rootValue = " + Arrays.toString(this.root.getValue()));
-        double predictedLabel;
+        double predictedLabel = -10;
         double[] predictedArray = new double[dataset.length];
-        for (int i = 0; i < dataset.length; i++) {
 //            System.out.println("dataset[i][root.getFeatureIndex()] = " + dataset[i][this.root.getFeatureIndex()]);
 //            System.out.println(this.root.getChildrenNodes());
             for (Node child : rootNode.getChildrenNodes()) {
-                int featureValue = (int) dataset[i][rootNode.getFeatureIndex()];
+                int featureValue = (int) dataset[index][rootNode.getFeatureIndex()];
 //                if (featureArrr.get(root.getFeatureIndex()) == featureValue) {
                 if (containValue(child, featureValue)) {
-                    predictedLabel = predict(dataset, child, featureValue, featureArr);
+                    predictedLabel = predict(dataset, child, featureValue, featureArr , index);
                     if (predictedLabel != 0)
-                        predictedArray[i] = predictedLabel;
+                        return predictedLabel;
+//                        predictedArray[index] = predictedLabel;
                 }
 //                }
             }
-        }
-        return predictedArray;
+        return predictedLabel;
     }
 
     //checks to see if a given Value is on the child 's values or not
