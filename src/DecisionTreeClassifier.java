@@ -44,7 +44,7 @@ public class DecisionTreeClassifier {
     public double makePrediction(double[][] dataset, Node rootNode, ArrayList<Integer> featureArr , int index) {
 //        Node rootNode = this.getRoot();
 //        System.out.println("rootValue = " + Arrays.toString(this.root.getValue()));
-        double predictedLabel = -10;
+        double predictedLabel = 0;
         double[] predictedArray = new double[dataset.length];
 //            System.out.println("dataset[i][root.getFeatureIndex()] = " + dataset[i][this.root.getFeatureIndex()]);
 //            System.out.println(this.root.getChildrenNodes());

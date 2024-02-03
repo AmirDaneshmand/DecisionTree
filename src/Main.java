@@ -74,6 +74,7 @@ public class Main {
         int[] label_test_temporary = new int[predictedLabels.length];
         for (int i = 0; i < predictedLabels.length; i++) {
             label_test_temporary[i] = label_test_temp[i];
+            System.out.print(label_test_temporary[i] + " ");
         }
         // Assuming accuracy_score
         double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
@@ -91,8 +92,9 @@ public class Main {
                      This shit have less than 75% accuracy !!!!!\s""");
         } else {
             System.out.println(" ***  Congratulations *o*  ***");
-            double mydouble = accuracy / 100.0;
-            System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
+            double mydouble = accuracy * 100.0;
+            System.out.printf("Your Algorithm has %.2f ", mydouble);
+            System.out.println(" % " + " accuracy !!! \n");
         }
 
 
