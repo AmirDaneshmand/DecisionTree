@@ -19,9 +19,11 @@ public class Main {
 
         int[] label_temp = new int[label.length];
         int[] label_test_temp = new int[label_test.length];
+//        System.out.println("label.length = " + label.length);
         for (int i = 0; i < label.length; i++) {
             label_temp[i] = (int) label[i][0];
         }
+//        System.out.println("label_test.length = " + label_test.length);
         for (int i = 0; i < label_test.length; i++) {
             label_test_temp[i] = (int) label_test[i][0];
         }
@@ -29,22 +31,22 @@ public class Main {
         // Run ID3 Algorithm
         Tree tree = new Tree(0);
         // Small temporary test on dataset
-        double[][] temp = new double[30][18];
-        for (int i = 0; i < 30; i++) {
+        double[][] temp = new double[50][18];
+        for (int i = 0; i < 50; i++) {
             for (int j = 0; j < 17; j++) {
                 temp[i][j] = data[i][j];
 //                    System.out.print(temp[i][j] + " ");
             }
 //                System.out.println();
         }
-        System.out.println("Dataset test = ");
-        double[][] temp_test = new double[30][18];
-        for (int i = 0; i < 30; i++) {
+//        System.out.println("Dataset test = ");
+        double[][] temp_test = new double[50][18];
+        for (int i = 0; i < 50; i++) {
             for (int j = 0; j < 17; j++) {
                 temp_test[i][j] = data_test[i][j];
-                System.out.print(temp_test[i][j] + " ");
+//                System.out.print(temp_test[i][j] + " ");
             }
-            System.out.println();
+//            System.out.println();
         }
         ArrayList<Integer> featureArr = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
@@ -56,36 +58,38 @@ public class Main {
         // Train-Test split
         DecisionTreeClassifier Dtree = new DecisionTreeClassifier(tree, temp, label_temp);
         Node root = Dtree.buildTree(temp, 0, featureArr);
+//        System.out.println("root on Main : " + root.getFeatureIndex());
         System.out.println("Decision tree Built Successfully  * o *");
 
         // Test the model
-        System.out.print("predicted Labels : ");
-        double[] predictedLabels = Dtree.makePrediction(temp_test, new Tree(root), featureArr);
-        for (int i = 0; i < predictedLabels.length; i++) {
-            System.out.print(predictedLabels[i] + " ");
-        }
-        int[] label_test_temporary = new int[predictedLabels.length];
-        for (int i = 0; i < predictedLabels.length; i++) {
-            label_test_temporary[i] = label_test_temp[i];
-        }
+//        System.out.print("predicted Labels : ");
+//        double[] predictedLabels = Dtree.makePrediction(temp_test, root, featureArr);
+//        for (int i = 0; i < predictedLabels.length; i++) {
+//            System.out.print(predictedLabels[i] + " ");
+//        }
+//        int[] label_test_temporary = new int[predictedLabels.length];
+//        for (int i = 0; i < predictedLabels.length; i++) {
+//            label_test_temporary[i] = label_test_temp[i];
+//        }
         // Assuming accuracy_score
-        double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
+//        double accuracy = Dtree.accuracyScore(label_test_temporary, predictedLabels);
 
-        if (accuracy < 0.75) {
-            System.out.println("Your Fucking accuracy is = " + accuracy);
-            System.out.println("""
-                    Holy\s
-                    \t Bloody\s
-                    \t\t Fucking\s
-                    \t\t\t Damn\s
-                    \t\t\t\t shit\s
-                    \t\t\t\t\t body !\s
-                     This shit have less than 75% accuracy !!!!!\s""");
-        } else {
-            System.out.println(" ***  Congratulations *o*  ***");
-            double mydouble = accuracy / 100.0;
-            System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
-        }
+//        if (accuracy < 0.75) {
+//            System.out.println("Your Fucking accuracy is = " + accuracy);
+//            System.out.println("""
+//                    Holy\s
+//                    \t Bloody\s
+//                    \t\t Fucking\s
+//                    \t\t\t Damn\s
+//                    \t\t\t\t shit\s
+//                    \t\t\t\t\t body !\s
+//                     This shit have less than 75% accuracy !!!!!\s""");
+//        } else {
+//            System.out.println(" ***  Congratulations *o*  ***");
+//            double mydouble = accuracy / 100.0;
+//            System.out.printf("Your Algorithm has %.2f accuracy !!!%n \n", mydouble);
+//        }
+
 
 //		double[][] X = new double[data.length][data[0].length - 1];
 //		double[] Y = new double[data.length];
