@@ -276,21 +276,21 @@ public class DecisionTreeClassifier {
         List<double[]> datasetlist6 = new ArrayList<>();
         List<double[]> datasetlist7 = new ArrayList<>();
 
-        for (int i = 0; i < dataset.length; i++) {
-            if (dataset[i][featureIndex] <= thresholdValues[0]) {
-                datasetlist1.add(dataset[i]);
-            } else if (dataset[i][featureIndex] > thresholdValues[0] && dataset[i][featureIndex] <= thresholdValues[1]) {
-                datasetlist2.add(dataset[i]);
-            } else if (dataset[i][featureIndex] > thresholdValues[1] && dataset[i][featureIndex] <= thresholdValues[2]) {
-                datasetlist3.add(dataset[i]);
-            } else if (dataset[i][featureIndex] > thresholdValues[2] && dataset[i][featureIndex] <= thresholdValues[3]) {
-                datasetlist4.add(dataset[i]);
-            } else if (dataset[i][featureIndex] > thresholdValues[3] && dataset[i][featureIndex] <= thresholdValues[4]) {
-                datasetlist5.add(dataset[i]);
-            } else if (dataset[i][featureIndex] > thresholdValues[4] && dataset[i][featureIndex] <= thresholdValues[5]) {
-                datasetlist6.add(dataset[i]);
-            } else if (dataset[i][featureIndex] > thresholdValues[5] && dataset[i][featureIndex] <= thresholdValues[6]) {
-                datasetlist7.add(dataset[i]);
+        for (double[] doubles : dataset) {
+            if (doubles[featureIndex] <= thresholdValues[0]) {
+                datasetlist1.add(doubles);
+            } else if (doubles[featureIndex] > thresholdValues[0] && doubles[featureIndex] <= thresholdValues[1]) {
+                datasetlist2.add(doubles);
+            } else if (doubles[featureIndex] > thresholdValues[1] && doubles[featureIndex] <= thresholdValues[2]) {
+                datasetlist3.add(doubles);
+            } else if (doubles[featureIndex] > thresholdValues[2] && doubles[featureIndex] <= thresholdValues[3]) {
+                datasetlist4.add(doubles);
+            } else if (doubles[featureIndex] > thresholdValues[3] && doubles[featureIndex] <= thresholdValues[4]) {
+                datasetlist5.add(doubles);
+            } else if (doubles[featureIndex] > thresholdValues[4] && doubles[featureIndex] <= thresholdValues[5]) {
+                datasetlist6.add(doubles);
+            } else if (doubles[featureIndex] > thresholdValues[5] && doubles[featureIndex] <= thresholdValues[6]) {
+                datasetlist7.add(doubles);
             }
         }
         List<double[][]> datasetListresult = new ArrayList<>();
@@ -320,7 +320,8 @@ public class DecisionTreeClassifier {
     //find the element with the maximum occurrences and calculate the purity
     public double calculateLeafValue(double[][] dataset) {
         if (dataset != null) {
-            int lastIndex = dataset[0].length - 1; // Assuming the last column is at index 17
+            int lastIndex = dataset[0].length - 1;
+            // Assuming the last column is at index 17
 //        System.out.println("dataset.length = " + dataset.length);
 
             // Count occurrences of each unique element in the last column

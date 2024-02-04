@@ -33,10 +33,8 @@ public class Main {
         // Small temporary test on dataset
         double[][] temp = new double[2000][18];
         for (int i = 0; i < 2000; i++) {
-            for (int j = 0; j < 17; j++) {
-                temp[i][j] = data[i][j];
-//                    System.out.print(temp[i][j] + " ");
-            }
+            //                    System.out.print(temp[i][j] + " ");
+            System.arraycopy(data[i], 0, temp[i], 0, 17);
 //                System.out.println();
         }
 //        System.out.println("Dataset test = ");
