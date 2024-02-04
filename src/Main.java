@@ -42,10 +42,8 @@ public class Main {
 //        System.out.println("Dataset test = ");
         double[][] temp_test = new double[2000][18];
         for (int i = 0; i < 2000; i++) {
-            for (int j = 0; j < 17; j++) {
-                temp_test[i][j] = data_test[i][j];
-//                System.out.print(temp_test[i][j] + " ");
-            }
+            //                System.out.print(temp_test[i][j] + " ");
+            System.arraycopy(data_test[i], 0, temp_test[i], 0, 17);
 //            System.out.println();
         }
         ArrayList<Integer> featureArr = new ArrayList<>();
